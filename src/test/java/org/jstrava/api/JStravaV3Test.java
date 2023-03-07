@@ -2,12 +2,15 @@ package org.jstrava.api;
 
 import org.jstrava.entities.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -31,7 +34,7 @@ public class JStravaV3Test {
     public void testFailedConnection()
     {
 
-            JStravaV3 strava= new JStravaV3("xxxxxxxx");
+            JStravaV3 strava= new JStravaV3();strava.init("xxxxxxxx");
 
     }
 
@@ -39,7 +42,7 @@ public class JStravaV3Test {
     @Test
     public void testJStravaV3() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         Athlete athlete=strava.getCurrentAthlete();
         System.out.println(athlete.getFirstname());
         assertNotNull(athlete);
@@ -51,7 +54,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthlete() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
 
         Athlete athlete=strava.findAthlete(athleteId);
         assertNotNull(athlete);
@@ -64,7 +67,7 @@ public class JStravaV3Test {
     @Test
     public void testUpdateAthlete() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
 
         HashMap optionalParameters= new HashMap();
 
@@ -78,7 +81,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteKOMs(){
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<SegmentEffort> efforts= strava.findAthleteKOMs(athleteId);
 
         assertFalse(efforts.isEmpty());
@@ -93,7 +96,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteKOMsWithPagination(){
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<SegmentEffort> efforts= strava.findAthleteKOMs(athleteId,2,1);
 
         assertFalse(efforts.isEmpty());
@@ -111,7 +114,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentAthleteFriends() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.getCurrentAthleteFriends();
         assertFalse(athletes.isEmpty());
         for (Athlete athlete:athletes)
@@ -124,7 +127,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentAthleteFriendsWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.getCurrentAthleteFriends(2,1);
         assertFalse(athletes.isEmpty());
         assertTrue(athletes.size()==1);
@@ -140,7 +143,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteFriends() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findAthleteFriends(athleteId);
         assertFalse(athletes.isEmpty());
         for (Athlete athlete:athletes)
@@ -153,7 +156,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteFriendsWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findAthleteFriends(athleteId,2,1);
         assertFalse(athletes.isEmpty());
         assertTrue(athletes.size()==1);
@@ -169,7 +172,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentAthleteFollowers() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.getCurrentAthleteFollowers();
         assertFalse(athletes.isEmpty());
         for (Athlete athlete:athletes)
@@ -182,7 +185,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentAthleteFollowersWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.getCurrentAthleteFollowers(2,1);
         assertTrue(athletes.size()==1);
         assertFalse(athletes.isEmpty());
@@ -199,7 +202,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteFollowers() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findAthleteFollowers(athleteId);
         assertFalse(athletes.isEmpty());
         for (Athlete athlete:athletes)
@@ -212,7 +215,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteFollowersWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findAthleteFollowers(athleteId,2,1);
         assertTrue(athletes.size()==1);
         assertFalse(athletes.isEmpty());
@@ -226,7 +229,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteBothFollowing() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findAthleteBothFollowing(athleteId);
         assertFalse(athletes.isEmpty());
         for (Athlete athlete:athletes)
@@ -239,7 +242,7 @@ public class JStravaV3Test {
     @Test
     public void testFindAthleteBothFollowingWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findAthleteBothFollowing(athleteId,2,1);
         assertTrue(athletes.size()==1);
         assertFalse(athletes.isEmpty());
@@ -253,7 +256,7 @@ public class JStravaV3Test {
     @Test
     public void testCreateAndDeleteActivity() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
 
         Activity activity= strava.createActivity("Test Manual Activity", "ride", "2014-03-14T09:00:00Z", 10);
         assertNotNull(activity);
@@ -274,7 +277,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivity() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
 
         Activity activity= strava.findActivity(activityId);
         assertNotNull(activity);
@@ -297,7 +300,7 @@ public class JStravaV3Test {
     @Test
     public void testUpdateActivity() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
 
         HashMap optionalParameters= new HashMap();
 
@@ -315,7 +318,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentAthleteActivities()
     {
-    JStravaV3 strava= new JStravaV3(accessToken);
+    JStravaV3 strava= new JStravaV3();strava.init(accessToken);
     List<Activity> activities= strava.getCurrentAthleteActivities();
     assertFalse(activities.isEmpty());
     for (Activity activity:activities)
@@ -329,7 +332,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentAthleteActivitiesWithPagination()
     {
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Activity> activities= strava.getCurrentAthleteActivities(2,1);
         assertTrue(activities.size()==1);
         assertFalse(activities.isEmpty());
@@ -345,7 +348,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentFriendsActivities()
     {
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Activity> activities= strava.getCurrentFriendsActivities();
         assertFalse(activities.isEmpty());
         for (Activity activity:activities)
@@ -359,7 +362,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentFriendsActivitiesWithPagination()
     {
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Activity> activities= strava.getCurrentFriendsActivities(2, 1);
         assertTrue(activities.size()==1);
         assertFalse(activities.isEmpty());
@@ -372,7 +375,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivityLaps() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<LapsItem>laps=strava.findActivityLaps(activityId);
 
         assertFalse(laps.isEmpty());
@@ -388,7 +391,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivityComments() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Comment> comments= strava.findActivityComments(activityId);
         assertFalse(comments.isEmpty());
         for (Comment comment:comments)
@@ -402,7 +405,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivityCommentsWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Comment> comments= strava.findActivityComments(activityId,false,2,1);
         assertTrue(comments.size()==1);
         assertFalse(comments.isEmpty());
@@ -417,7 +420,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivityKudos() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findActivityKudos(activityId);
         assertFalse(athletes.isEmpty());
         for (Athlete athlete:athletes)
@@ -430,7 +433,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivityKudosWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findActivityKudos(activityId,2,1);
         assertTrue(athletes.size()==1);
         assertFalse(athletes.isEmpty());
@@ -447,7 +450,7 @@ public class JStravaV3Test {
     @Test
     public void testFindClubMembers() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findClubMembers(clubId);
         assertFalse(athletes.isEmpty());
         for (Athlete athlete:athletes)
@@ -460,7 +463,7 @@ public class JStravaV3Test {
     @Test
     public void testFindClubMembersWithPagination() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Athlete> athletes= strava.findClubMembers(clubId,2,1);
         assertTrue(athletes.size()==1);
         assertFalse(athletes.isEmpty());
@@ -475,7 +478,7 @@ public class JStravaV3Test {
     @Test
     public void testFindClubActivities(){
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Activity> activities= strava.findClubActivities(clubId);
         assertFalse(activities.isEmpty());
         for (Activity activity:activities)
@@ -489,7 +492,7 @@ public class JStravaV3Test {
     @Test
     public void testFindClubActivitiesWithPagination(){
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Activity> activities= strava.findClubActivities(clubId,2,1);
         assertTrue(activities.size()==1);
         assertFalse(activities.isEmpty());
@@ -503,7 +506,7 @@ public class JStravaV3Test {
     @Test
     public void testFindClub() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
 
         Club club= strava.findClub(clubId);
         assertNotNull(club);
@@ -516,7 +519,7 @@ public class JStravaV3Test {
     @Test
     public void testGetCurrentAthleteClubs(){
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Club> clubs= strava.getCurrentAthleteClubs();
         assertTrue(clubs.isEmpty());
         for (Club club:clubs)
@@ -532,7 +535,7 @@ public class JStravaV3Test {
     @Test
     public void testFindGear() throws Exception {
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
 
         Gear gear= strava.findGear(gearId);
         assertNotNull(gear);
@@ -543,7 +546,7 @@ public class JStravaV3Test {
     @Test
     public void testFindSegment() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         Segment segment= strava.findSegment(segmentId);
         assertNotNull(segment);
 
@@ -554,7 +557,7 @@ public class JStravaV3Test {
     @Test
     public void testFindCurrentStarredSegments() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Segment>segments=strava.getCurrentStarredSegment();
 
         assertFalse(segments.isEmpty());
@@ -568,7 +571,7 @@ public class JStravaV3Test {
     @Test
     public void testFindSegmentLeaderBoard() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         SegmentLeaderBoard board= strava.findSegmentLeaderBoard(segmentId);
         assertNotNull(board);
         for (EntriesItem entry:board.getEntries())
@@ -581,7 +584,7 @@ public class JStravaV3Test {
     @Test
     public void testFindSegmentLeaderBoardWithParameters() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         HashMap optionalParameters= new HashMap();
         optionalParameters.put("gender","F");
         optionalParameters.put("page",1);
@@ -598,7 +601,7 @@ public class JStravaV3Test {
     @Test
     public void testFindSegmentExplorer() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         double[] bounds= new double[]{37.821362,-122.505373,37.842038,-122.465977};
         List<Segment> segments= strava.findSegments(bounds);
         assertNotNull(segments);
@@ -614,7 +617,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivityStreams() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"});
         assertNotNull(streams);
 
@@ -634,7 +637,7 @@ public class JStravaV3Test {
     @Test
     public void testFindActivityStreamsWithResolution() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"},"low",null);
         assertNotNull(streams);
 
@@ -655,7 +658,7 @@ public class JStravaV3Test {
     @Test
     public void testFindEffortStreams() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Stream> streams= strava.findEffortStreams(activityId,new String[]{"latlng","time","distance"});
         assertNotNull(streams);
 
@@ -675,7 +678,7 @@ public class JStravaV3Test {
     @Test
     public void testFindEffortStreamsWithResolution() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Stream> streams= strava.findEffortStreams(activityId,new String[]{"latlng","time","distance"},"low",null);
         assertNotNull(streams);
 
@@ -696,7 +699,7 @@ public class JStravaV3Test {
     @Test
     public void testFindSegmentStreams() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"});
         assertNotNull(streams);
 
@@ -716,7 +719,7 @@ public class JStravaV3Test {
     @Test
     public void testFindSegmentStreamsWithResolution() throws Exception{
 
-        JStravaV3 strava= new JStravaV3(accessToken);
+        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
         List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"},"low",null);
         assertNotNull(streams);
 

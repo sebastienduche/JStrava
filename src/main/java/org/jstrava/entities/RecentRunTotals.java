@@ -1,6 +1,6 @@
 package org.jstrava.entities;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("com.robohorse.robopojogenerator")

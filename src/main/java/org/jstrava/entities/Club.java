@@ -1,7 +1,8 @@
 package org.jstrava.entities;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.processing.Generated;
 
 @Generated("com.robohorse.robopojogenerator")
 public class Club{

@@ -1,8 +1,9 @@
 package org.jstrava.entities;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.processing.Generated;
 
 @Generated("com.robohorse.robopojogenerator")
 public class SegmentEffort {

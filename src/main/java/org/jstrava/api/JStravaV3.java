@@ -1,20 +1,41 @@
 package org.jstrava.api;
 
-
 import com.google.gson.Gson;
 import org.jstrava.entities.*;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+
 
 public class JStravaV3 implements JStrava {
 
     private String accessToken;
+    private String refreshToken;
     private Athlete currentAthlete;
-    private Gson gson = new Gson();
-    
+    private final Gson gson = new Gson();
 
+    private boolean init = false;
+
+    public void init(String accessToken) {
+        init = true;
+        this.accessToken = accessToken;
+    }
 
     public String getAccessToken() {
         return accessToken;
@@ -61,7 +82,7 @@ public class JStravaV3 implements JStrava {
         String result=getResult(URL);
         
         SegmentEffort[] segmentEffortArray=gson.fromJson(result,SegmentEffort[].class);
-        List<SegmentEffort>segmentEfforts= Arrays.asList(segmentEffortArray);
+        List<SegmentEffort> segmentEfforts= Arrays.asList(segmentEffortArray);
         return segmentEfforts;
     }
 
@@ -826,11 +847,6 @@ public class JStravaV3 implements JStrava {
         return status;
     }
 
-
-    public JStravaV3(String access_token){
-        this.accessToken = access_token;
-    }
-
     private String getExtension(String fileName) {
 	String extension = "";
 
@@ -922,21 +938,31 @@ public class JStravaV3 implements JStrava {
     }
 
 
+
     private String getResult(String URL){
+        List<String> result = getResult(URL, true);
+        if (result == null) {
+            return null;
+        }
+        return result.get(1);
+    }
+    private List<String> getResult(String URL, boolean withBearer){
         StringBuilder sb= new StringBuilder();
+        java.net.URL resultUrl;
 
         try {
             URL url = new URL(URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Authorization","Bearer "+getAccessToken());
+            if (withBearer) {
+                conn.setRequestProperty("Authorization", "Bearer " + getAccessToken());
+            }
 
             if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
-
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (conn.getInputStream())));
 
@@ -945,6 +971,7 @@ public class JStravaV3 implements JStrava {
                 sb.append(output);
             }
 
+            resultUrl = conn.getURL();
             conn.disconnect();
 
         } catch (IOException e) {
@@ -953,7 +980,7 @@ public class JStravaV3 implements JStrava {
             return null;
         }
 
-        return sb.toString();
+        return List.of(resultUrl.toString(), sb.toString());
 
     }
 
@@ -1272,6 +1299,11 @@ public class JStravaV3 implements JStrava {
     }
 
 
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
-
+    public String getRefreshToken() {
+        return refreshToken;
+    }
 }

@@ -3,21 +3,28 @@ package org.jstrava.authenticator;
 
 import org.jstrava.entities.Athlete;
 
-public class AuthResponse {
+public class RefreshTokenResponse {
     String access_token;
-    Athlete athlete;
+
+    public String getRefresh_token() {
+        return refresh_token;
+    }
+
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
+    }
+
+    String refresh_token;
 
     public String getAccess_token() { return access_token; }
     public void setAccess_token(String token) { this.access_token = token; }
 
-    public Athlete getAthlete() { return athlete; }
-    public void setAthlete() { this.athlete = athlete; }
 
     @Override
     public String toString() {
         return "AuthResponse{" +
                 "access_token='" + access_token + '\'' +
-                ", athlete=" + athlete +
+                ", refresh_token=" + refresh_token +
                 '}';
     }
 }
