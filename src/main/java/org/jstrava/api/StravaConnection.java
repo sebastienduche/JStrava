@@ -6,6 +6,8 @@ import org.jstrava.authenticator.StravaAuthenticator;
 
 import javax.swing.JOptionPane;
 import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class StravaConnection {
@@ -18,20 +20,21 @@ public class StravaConnection {
     private final StravaAuthenticator stravaAuthenticator;
     private final static String URL_GET_CODE = "https://www.strava.com/oauth/authorize?client_id=%d&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read";
 
-    public StravaConnection(int clientId, String clientSecret) {
+    public StravaConnection(int clientId, String clientSecret, String accessToken, String refreshToken) {
         this.clientId = clientId;
         this.jStravaV3 = new JStravaV3();
         stravaAuthenticator = new StravaAuthenticator(clientId, "http://localhost/", clientSecret);
-        init();
+        jStravaV3.setAccessToken(accessToken);
+        jStravaV3.setRefreshToken(refreshToken);
+        refreshToken();
+    }
+    public StravaConnection(int clientId, String clientSecret) throws IOException, URISyntaxException {
+        this(clientId, clientSecret, null, null);
+        requestCode();
     }
 
-    private void init() {
-        String codeUrl = getCodeUrl();
-        try {
-            Desktop.getDesktop().browse(new URL(codeUrl).toURI());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void requestCode() throws IOException, URISyntaxException {
+            Desktop.getDesktop().browse(new URL(getCodeUrl()).toURI());
         String value = JOptionPane.showInputDialog("Please enter the URL after accepting the authentication");
 
         int indexCode = value.indexOf(PARAM_CODE);
@@ -46,7 +49,7 @@ public class StravaConnection {
     }
 
     // call the URL to get the code in the response
-    public void tokenExchange(String code) {
+    private void tokenExchange(String code) {
         ExchangeResponse exchangeResponse = stravaAuthenticator.tokenExchange(code);
         System.out.println(exchangeResponse.getAccess_token());
         System.out.println(exchangeResponse);
@@ -55,8 +58,10 @@ public class StravaConnection {
     }
 
     public void refreshToken() {
+        if (jStravaV3.getRefreshToken() == null) {
+            return;
+        }
         RefreshTokenResponse authResponse = stravaAuthenticator.refreshToken(jStravaV3.getRefreshToken());
-        System.out.println(authResponse);
         jStravaV3.setAccessToken(authResponse.getAccess_token());
         jStravaV3.setRefreshToken(authResponse.getRefresh_token());
     }
