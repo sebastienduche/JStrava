@@ -11,7 +11,7 @@ public class AuthResponse {
     public void setAccess_token(String token) { this.access_token = token; }
 
     public Athlete getAthlete() { return athlete; }
-    public void setAthlete() { this.athlete = athlete; }
+    public void setAthlete(Athlete athlete) { this.athlete = athlete; }
 
     @Override
     public String toString() {

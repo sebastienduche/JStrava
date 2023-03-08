@@ -9,6 +9,9 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Created by roberto on 2/10/14.
@@ -38,9 +41,13 @@ public class StravaAuthenticator {
         this.redirectUri = redirectUri;
     }
 
-    public String getSecrete() { return secrete; }
+    public String getSecrete() {
+        return secrete;
+    }
 
-    public void setSecrete(String secrete) { this.secrete = secrete; }
+    public void setSecrete(String secrete) {
+        this.secrete = secrete;
+    }
 
     public StravaAuthenticator(int clientId, String redirectUri) {
         this.clientId = clientId;
@@ -54,14 +61,12 @@ public class StravaAuthenticator {
     }
 
 
-    public String getRequestAccessUrl(String approvalPrompt, boolean viewPrivate, boolean write, String state)
-    {
+    public String getRequestAccessUrl(String approvalPrompt, boolean viewPrivate, boolean write, String state) {
         String url = "https://www.strava.com/oauth/authorize?client_id=" + clientId + "&response_type=code&redirect_uri=" + redirectUri;
 
         StringBuilder sb = new StringBuilder(url);
 
-        if (viewPrivate || write)
-        {
+        if (viewPrivate || write) {
             sb.append("&scope=");
 
             if (viewPrivate) {
@@ -93,23 +98,22 @@ public class StravaAuthenticator {
             URI uri = new URI(TOKEN_URL);
             URL url = uri.toURL();
 
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             try {
-                StringBuilder sb = new StringBuilder();
-                sb.append("client_id=" + clientId);
-                sb.append("&client_secret=" + secrete);
-                sb.append("&code=" + code);
+                String sb = "client_id=" + clientId +
+                        "&client_secret=" + secrete +
+                        "&code=" + code;
 
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
                 OutputStream os = conn.getOutputStream();
-                os.write(sb.toString().getBytes("UTF-8"));
+                os.write(sb.getBytes(UTF_8));
 
                 if (conn.getResponseCode() != 200) {
                     throw new RuntimeException("Failed : HTTP error code : "
-                            + conn.toString());
+                            + conn);
                 }
 
                 Reader br = new InputStreamReader((conn.getInputStream()));
@@ -131,24 +135,22 @@ public class StravaAuthenticator {
         }
 
         try {
-
             URI uri = new URI(TOKEN_URL);
             URL url = uri.toURL();
 
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             try {
-                StringBuilder sb = new StringBuilder();
-                sb.append("client_id=").append(clientId);
-                sb.append("&client_secret=").append(secrete);
-                sb.append("&grant_type=refresh_token");
-                sb.append("&refresh_token=").append(refreshToken);
+                String sb = "client_id=" + clientId +
+                        "&client_secret=" + secrete +
+                        "&grant_type=refresh_token" +
+                        "&refresh_token=" + refreshToken;
 
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
                 OutputStream os = conn.getOutputStream();
-                os.write(sb.toString().getBytes("UTF-8"));
+                os.write(sb.getBytes(UTF_8));
 
                 if (conn.getResponseCode() != 200) {
                     throw new RuntimeException("Failed : HTTP error code : "
@@ -158,7 +160,6 @@ public class StravaAuthenticator {
                 Reader br = new InputStreamReader((conn.getInputStream()));
                 Gson gson = new Gson();
                 return gson.fromJson(br, RefreshTokenResponse.class);
-
             } finally {
                 conn.disconnect();
             }
@@ -174,11 +175,10 @@ public class StravaAuthenticator {
         }
 
         try {
-
             URI uri = new URI(TOKEN_URL);
             URL url = uri.toURL();
 
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             try {
                 StringBuilder sb = new StringBuilder();
@@ -191,11 +191,10 @@ public class StravaAuthenticator {
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
                 OutputStream os = conn.getOutputStream();
-                os.write(sb.toString().getBytes("UTF-8"));
+                os.write(sb.toString().getBytes(UTF_8));
 
                 if (conn.getResponseCode() != 200) {
-                    throw new RuntimeException("Failed : HTTP error code : "
-                            + conn.getResponseCode());
+                    throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
                 }
 
                 Reader br = new InputStreamReader((conn.getInputStream()));
@@ -210,6 +209,5 @@ public class StravaAuthenticator {
             return null;
         }
     }
-
 
 }

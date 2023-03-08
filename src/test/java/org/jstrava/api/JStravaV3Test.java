@@ -29,712 +29,578 @@ public class JStravaV3Test {
     long segmentId;
 
 
-
     @Test
-    public void testFailedConnection()
-    {
-
-            JStravaV3 strava= new JStravaV3();strava.init("xxxxxxxx");
-
+    public void testFailedConnection() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init("xxxxxxxx");
     }
 
-
     @Test
-    public void testJStravaV3() throws Exception {
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        Athlete athlete=strava.getCurrentAthlete();
+    public void testJStravaV3() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        Athlete athlete = strava.getCurrentAthlete();
         System.out.println(athlete.getFirstname());
         assertNotNull(athlete);
-
     }
 
-
-
     @Test
-    public void testFindAthlete() throws Exception {
+    public void testFindAthlete() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-
-        Athlete athlete=strava.findAthlete(athleteId);
+        Athlete athlete = strava.findAthlete(athleteId);
         assertNotNull(athlete);
         assertFalse(athlete.getBikes().isEmpty());
         assertFalse(athlete.getShoes().isEmpty());
         assertTrue(athlete.getClubs().isEmpty());
     }
 
-
     @Test
-    public void testUpdateAthlete() throws Exception {
+    public void testUpdateAthlete() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
+        HashMap optionalParameters = new HashMap();
 
-        HashMap optionalParameters= new HashMap();
-
-        double weight=71;
-        optionalParameters.put("weight",weight);
-        Athlete athlete=strava.updateAthlete(optionalParameters);
+        double weight = 71;
+        optionalParameters.put("weight", weight);
+        Athlete athlete = strava.updateAthlete(optionalParameters);
         assertNotNull(athlete);
     }
 
-
     @Test
-    public void testFindAthleteKOMs(){
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<SegmentEffort> efforts= strava.findAthleteKOMs(athleteId);
+    public void testFindAthleteKOMs() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<SegmentEffort> efforts = strava.findAthleteKOMs(athleteId);
 
         assertFalse(efforts.isEmpty());
-        for (SegmentEffort effort:efforts)
-        {
+        for (SegmentEffort effort : efforts) {
             System.out.println("Segment Effort KOM " + effort.toString());
-
         }
-
     }
 
     @Test
-    public void testFindAthleteKOMsWithPagination(){
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<SegmentEffort> efforts= strava.findAthleteKOMs(athleteId,2,1);
+    public void testFindAthleteKOMsWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<SegmentEffort> efforts = strava.findAthleteKOMs(athleteId, 2, 1);
 
         assertFalse(efforts.isEmpty());
-        assertTrue(efforts.size()==1);
-        for (SegmentEffort effort:efforts)
-        {
+        assertTrue(efforts.size() == 1);
+        for (SegmentEffort effort : efforts) {
             System.out.println("Segment Effort KOM " + effort.toString());
-
         }
-
     }
 
-
-
     @Test
-    public void testGetCurrentAthleteFriends() throws Exception{
+    public void testGetCurrentAthleteFriends() {
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.getCurrentAthleteFriends();
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.getCurrentAthleteFriends();
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Current Athlete Friends "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Current Athlete Friends " + athlete.toString());
         }
-
     }
 
     @Test
-    public void testGetCurrentAthleteFriendsWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.getCurrentAthleteFriends(2,1);
+    public void testGetCurrentAthleteFriendsWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.getCurrentAthleteFriends(2, 1);
         assertFalse(athletes.isEmpty());
-        assertTrue(athletes.size()==1);
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Current Athlete Friends "+athlete.toString());
+        assertTrue(athletes.size() == 1);
+        for (Athlete athlete : athletes) {
+            System.out.println("Current Athlete Friends " + athlete.toString());
         }
-
     }
 
-
-
     @Test
-    public void testFindAthleteFriends() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findAthleteFriends(athleteId);
+    public void testFindAthleteFriends() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findAthleteFriends(athleteId);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athlete Friends "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Athlete Friends " + athlete.toString());
         }
-
     }
 
     @Test
-    public void testFindAthleteFriendsWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findAthleteFriends(athleteId,2,1);
+    public void testFindAthleteFriendsWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findAthleteFriends(athleteId, 2, 1);
         assertFalse(athletes.isEmpty());
-        assertTrue(athletes.size()==1);
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athlete Friends with pagination "+athlete.toString());
+        assertTrue(athletes.size() == 1);
+        for (Athlete athlete : athletes) {
+            System.out.println("Athlete Friends with pagination " + athlete.toString());
         }
-
     }
 
-
-
     @Test
-    public void testGetCurrentAthleteFollowers() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.getCurrentAthleteFollowers();
+    public void testGetCurrentAthleteFollowers() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.getCurrentAthleteFollowers();
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athlete Followers "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Athlete Followers " + athlete.toString());
         }
-
     }
 
     @Test
-    public void testGetCurrentAthleteFollowersWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.getCurrentAthleteFollowers(2,1);
-        assertTrue(athletes.size()==1);
+    public void testGetCurrentAthleteFollowersWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.getCurrentAthleteFollowers(2, 1);
+        assertTrue(athletes.size() == 1);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athlete Followers "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Athlete Followers " + athlete.toString());
         }
-
     }
 
-
-
-
     @Test
-    public void testFindAthleteFollowers() throws Exception{
+    public void testFindAthleteFollowers() {
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findAthleteFollowers(athleteId);
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findAthleteFollowers(athleteId);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athlete Followers "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Athlete Followers " + athlete.toString());
         }
-
     }
 
     @Test
-    public void testFindAthleteFollowersWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findAthleteFollowers(athleteId,2,1);
-        assertTrue(athletes.size()==1);
+    public void testFindAthleteFollowersWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findAthleteFollowers(athleteId, 2, 1);
+        assertTrue(athletes.size() == 1);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athlete Followers "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Athlete Followers " + athlete.toString());
         }
-
     }
 
     @Test
-    public void testFindAthleteBothFollowing() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findAthleteBothFollowing(athleteId);
+    public void testFindAthleteBothFollowing() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findAthleteBothFollowing(athleteId);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athletes Both Following "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Athletes Both Following " + athlete.toString());
         }
-
     }
 
     @Test
-    public void testFindAthleteBothFollowingWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findAthleteBothFollowing(athleteId,2,1);
-        assertTrue(athletes.size()==1);
+    public void testFindAthleteBothFollowingWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findAthleteBothFollowing(athleteId, 2, 1);
+        assertTrue(athletes.size() == 1);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Athletes Both Following "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Athletes Both Following " + athlete.toString());
         }
-
     }
 
     @Test
-    public void testCreateAndDeleteActivity() throws Exception {
+    public void testCreateAndDeleteActivity() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-
-        Activity activity= strava.createActivity("Test Manual Activity", "ride", "2014-03-14T09:00:00Z", 10);
+        Activity activity = strava.createActivity("Test Manual Activity", "ride", "2014-03-14T09:00:00Z", 10);
         assertNotNull(activity);
-        System.out.println("Activity Name "+activity.toString());
-        Activity activityExtra= strava.createActivity("Test Manual Activity","ride","2014-03-14T09:00:00Z",10,"Testing manual creation",100);
+        System.out.println("Activity Name " + activity.toString());
+        Activity activityExtra = strava.createActivity("Test Manual Activity", "ride", "2014-03-14T09:00:00Z", 10, "Testing manual creation", 100);
         assertNotNull(activityExtra);
-        System.out.println("Activity Name "+activityExtra.toString());
+        System.out.println("Activity Name " + activityExtra.toString());
         strava.deleteActivity(activity.getId());
         strava.deleteActivity(activityExtra.getId());
-
-
     }
 
-
-
-
-
     @Test
-    public void testFindActivity() throws Exception {
+    public void testFindActivity() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-
-        Activity activity= strava.findActivity(activityId);
+        Activity activity = strava.findActivity(activityId);
         assertNotNull(activity);
-        System.out.println("Activity Name "+activity.toString());
+        System.out.println("Activity Name " + activity.toString());
         assertNotNull(activity.getAthlete());
-        System.out.println("Athlete "+activity.getAthlete().getId());
-        System.out.println("MAP"+activity.getMap().toString());
+        System.out.println("Athlete " + activity.getAthlete().getId());
+        System.out.println("MAP" + activity.getMap().toString());
 
         assertFalse(activity.getSegmentEfforts().isEmpty());
-        for (SegmentEffort segmentEffort: activity.getSegmentEfforts())
-        {
-            System.out.println("Segment Effort "+segmentEffort.toString());
-            System.out.println("  Segment Effort Athlete"+segmentEffort.getAthlete().getId());
+        for (SegmentEffort segmentEffort : activity.getSegmentEfforts()) {
+            System.out.println("Segment Effort " + segmentEffort.toString());
+            System.out.println("  Segment Effort Athlete" + segmentEffort.getAthlete().getId());
             assertNotNull(segmentEffort.getSegment());
-            System.out.println("        Matching Segment "+segmentEffort.getSegment().toString());
+            System.out.println("        Matching Segment " + segmentEffort.getSegment().toString());
         }
-
     }
 
     @Test
-    public void testUpdateActivity() throws Exception {
+    public void testUpdateActivity() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
+        HashMap optionalParameters = new HashMap();
 
-        HashMap optionalParameters= new HashMap();
-
-        double weight=71;
-        String description="Autodromo mañanero";
-        String name="Autodromo en la mañana";
-        optionalParameters.put("description",description);
-        optionalParameters.put("name",name);
-        Activity activity=strava.updateActivity(updateActivityId,optionalParameters);
+        double weight = 71;
+        String description = "Autodromo mañanero";
+        String name = "Autodromo en la mañana";
+        optionalParameters.put("description", description);
+        optionalParameters.put("name", name);
+        Activity activity = strava.updateActivity(updateActivityId, optionalParameters);
         assertNotNull(activity);
     }
 
-
-
     @Test
-    public void testGetCurrentAthleteActivities()
-    {
-    JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-    List<Activity> activities= strava.getCurrentAthleteActivities();
-    assertFalse(activities.isEmpty());
-    for (Activity activity:activities)
-    {
-        System.out.println("Current Athlete Activity "+activity.toString());
-    }
-
-    }
-
-
-    @Test
-    public void testGetCurrentAthleteActivitiesWithPagination()
-    {
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Activity> activities= strava.getCurrentAthleteActivities(2,1);
-        assertTrue(activities.size()==1);
+    public void testGetCurrentAthleteActivities() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Activity> activities = strava.getCurrentAthleteActivities();
         assertFalse(activities.isEmpty());
-        for (Activity activity:activities)
-        {
-            System.out.println("Current Athlete Activity With Pagination "+activity.toString());
-        }
-
-    }
-
-
-
-    @Test
-    public void testGetCurrentFriendsActivities()
-    {
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Activity> activities= strava.getCurrentFriendsActivities();
-        assertFalse(activities.isEmpty());
-        for (Activity activity:activities)
-        {
-            System.out.println("Friend Activity "+activity.toString());
-        }
-
-    }
-
-
-    @Test
-    public void testGetCurrentFriendsActivitiesWithPagination()
-    {
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Activity> activities= strava.getCurrentFriendsActivities(2, 1);
-        assertTrue(activities.size()==1);
-        assertFalse(activities.isEmpty());
-        for (Activity activity:activities)
-        {
-            System.out.println("Friend Activity "+activity.toString());
+        for (Activity activity : activities) {
+            System.out.println("Current Athlete Activity " + activity.toString());
         }
     }
 
     @Test
-    public void testFindActivityLaps() throws Exception{
+    public void testGetCurrentAthleteActivitiesWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Activity> activities = strava.getCurrentAthleteActivities(2, 1);
+        assertTrue(activities.size() == 1);
+        assertFalse(activities.isEmpty());
+        for (Activity activity : activities) {
+            System.out.println("Current Athlete Activity With Pagination " + activity.toString());
+        }
+    }
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<LapsItem>laps=strava.findActivityLaps(activityId);
+    @Test
+    public void testGetCurrentFriendsActivities() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Activity> activities = strava.getCurrentFriendsActivities();
+        assertFalse(activities.isEmpty());
+        for (Activity activity : activities) {
+            System.out.println("Friend Activity " + activity.toString());
+        }
+    }
+
+    @Test
+    public void testGetCurrentFriendsActivitiesWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Activity> activities = strava.getCurrentFriendsActivities(2, 1);
+        assertTrue(activities.size() == 1);
+        assertFalse(activities.isEmpty());
+        for (Activity activity : activities) {
+            System.out.println("Friend Activity " + activity.toString());
+        }
+    }
+
+    @Test
+    public void testFindActivityLaps() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<LapsItem> laps = strava.findActivityLaps(activityId);
 
         assertFalse(laps.isEmpty());
 
-        for (LapsItem lap:laps)
-        {
-            System.out.println("Lap "+ lap.toString());
+        for (LapsItem lap : laps) {
+            System.out.println("Lap " + lap.toString());
         }
     }
 
-
-
     @Test
-    public void testFindActivityComments() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Comment> comments= strava.findActivityComments(activityId);
+    public void testFindActivityComments() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Comment> comments = strava.findActivityComments(activityId);
         assertFalse(comments.isEmpty());
-        for (Comment comment:comments)
-        {
+        for (Comment comment : comments) {
             System.out.println(comment.getText());
         }
-
     }
 
-
     @Test
-    public void testFindActivityCommentsWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Comment> comments= strava.findActivityComments(activityId,false,2,1);
-        assertTrue(comments.size()==1);
+    public void testFindActivityCommentsWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Comment> comments = strava.findActivityComments(activityId, false, 2, 1);
+        assertTrue(comments.size() == 1);
         assertFalse(comments.isEmpty());
-        for (Comment comment:comments)
-        {
+        for (Comment comment : comments) {
             System.out.println(comment.getText());
         }
-
     }
 
-
     @Test
-    public void testFindActivityKudos() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findActivityKudos(activityId);
+    public void testFindActivityKudos() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findActivityKudos(activityId);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
+        for (Athlete athlete : athletes) {
             System.out.println(athlete.toString());
         }
-
     }
 
     @Test
-    public void testFindActivityKudosWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findActivityKudos(activityId,2,1);
-        assertTrue(athletes.size()==1);
+    public void testFindActivityKudosWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findActivityKudos(activityId, 2, 1);
+        assertTrue(athletes.size() == 1);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
+        for (Athlete athlete : athletes) {
             System.out.println(athlete.toString());
         }
-
-    }
-
-
-
-
-    @Test
-    public void testFindClubMembers() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findClubMembers(clubId);
-        assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Club Member "+athlete.toString());
-        }
-
     }
 
     @Test
-    public void testFindClubMembersWithPagination() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Athlete> athletes= strava.findClubMembers(clubId,2,1);
-        assertTrue(athletes.size()==1);
+    public void testFindClubMembers() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findClubMembers(clubId);
         assertFalse(athletes.isEmpty());
-        for (Athlete athlete:athletes)
-        {
-            System.out.println("Club Member "+athlete.toString());
+        for (Athlete athlete : athletes) {
+            System.out.println("Club Member " + athlete.toString());
         }
+    }
 
+    @Test
+    public void testFindClubMembersWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Athlete> athletes = strava.findClubMembers(clubId, 2, 1);
+        assertTrue(athletes.size() == 1);
+        assertFalse(athletes.isEmpty());
+        for (Athlete athlete : athletes) {
+            System.out.println("Club Member " + athlete.toString());
+        }
     }
 
     ////////Remove EXPECTED annotation if you point to a club you are member of.
     @Test
-    public void testFindClubActivities(){
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Activity> activities= strava.findClubActivities(clubId);
+    public void testFindClubActivities() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Activity> activities = strava.findClubActivities(clubId);
         assertFalse(activities.isEmpty());
-        for (Activity activity:activities)
-        {
-            System.out.println("Club Activity Name "+activity.toString());
+        for (Activity activity : activities) {
+            System.out.println("Club Activity Name " + activity.toString());
         }
-
     }
 
     ////////Remove EXPECTED annotation if you point to a club you are member of.
     @Test
-    public void testFindClubActivitiesWithPagination(){
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Activity> activities= strava.findClubActivities(clubId,2,1);
-        assertTrue(activities.size()==1);
+    public void testFindClubActivitiesWithPagination() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Activity> activities = strava.findClubActivities(clubId, 2, 1);
+        assertTrue(activities.size() == 1);
         assertFalse(activities.isEmpty());
-        for (Activity activity:activities)
-        {
-            System.out.println("Club Activity Name "+activity.toString());
+        for (Activity activity : activities) {
+            System.out.println("Club Activity Name " + activity.toString());
         }
-
     }
 
     @Test
-    public void testFindClub() throws Exception {
+    public void testFindClub() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-
-        Club club= strava.findClub(clubId);
+        Club club = strava.findClub(clubId);
         assertNotNull(club);
-        System.out.println("Club Name " + club.toString());
-
+        System.out.println("Club Name " + club);
     }
-
 
     ////////Change assert if you do have clubs
     @Test
-    public void testGetCurrentAthleteClubs(){
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Club> clubs= strava.getCurrentAthleteClubs();
+    public void testGetCurrentAthleteClubs() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Club> clubs = strava.getCurrentAthleteClubs();
         assertTrue(clubs.isEmpty());
-        for (Club club:clubs)
-        {
+        for (Club club : clubs) {
             System.out.println("Club Name " + club.toString());
         }
-
     }
 
 
-
-
     @Test
-    public void testFindGear() throws Exception {
+    public void testFindGear() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
 
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-
-        Gear gear= strava.findGear(gearId);
+        Gear gear = strava.findGear(gearId);
         assertNotNull(gear);
-        System.out.println("Gear Name " + gear.toString());
-
+        System.out.println("Gear Name " + gear);
     }
 
     @Test
-    public void testFindSegment() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        Segment segment= strava.findSegment(segmentId);
+    public void testFindSegment() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        Segment segment = strava.findSegment(segmentId);
         assertNotNull(segment);
 
-        System.out.println("SEGMENT "+segment.toString());
-
+        System.out.println("SEGMENT " + segment);
     }
 
     @Test
-    public void testFindCurrentStarredSegments() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Segment>segments=strava.getCurrentStarredSegment();
+    public void testFindCurrentStarredSegments() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Segment> segments = strava.getCurrentStarredSegment();
 
         assertFalse(segments.isEmpty());
 
-        for (Segment segment:segments)
-        {
-            System.out.println("Starred Segment "+ segment);
+        for (Segment segment : segments) {
+            System.out.println("Starred Segment " + segment);
         }
     }
 
     @Test
-    public void testFindSegmentLeaderBoard() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        SegmentLeaderBoard board= strava.findSegmentLeaderBoard(segmentId);
+    public void testFindSegmentLeaderBoard() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        SegmentLeaderBoard board = strava.findSegmentLeaderBoard(segmentId);
         assertNotNull(board);
-        for (EntriesItem entry:board.getEntries())
-        {
-            System.out.println("Segment LeaderBoard "+entry.toString());
+        for (EntriesItem entry : board.getEntries()) {
+            System.out.println("Segment LeaderBoard " + entry.toString());
         }
-
     }
 
     @Test
-    public void testFindSegmentLeaderBoardWithParameters() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        HashMap optionalParameters= new HashMap();
-        optionalParameters.put("gender","F");
-        optionalParameters.put("page",1);
-        optionalParameters.put("per_page",3);
-        SegmentLeaderBoard board= strava.findSegmentLeaderBoard(segmentId,optionalParameters);
+    public void testFindSegmentLeaderBoardWithParameters() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        HashMap optionalParameters = new HashMap();
+        optionalParameters.put("gender", "F");
+        optionalParameters.put("page", 1);
+        optionalParameters.put("per_page", 3);
+        SegmentLeaderBoard board = strava.findSegmentLeaderBoard(segmentId, optionalParameters);
         assertNotNull(board);
 
-
-        assertTrue(board.getEntries().size()==3);
-
+        assertTrue(board.getEntries().size() == 3);
     }
 
-
     @Test
-    public void testFindSegmentExplorer() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        double[] bounds= new double[]{37.821362,-122.505373,37.842038,-122.465977};
-        List<Segment> segments= strava.findSegments(bounds);
+    public void testFindSegmentExplorer() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        double[] bounds = new double[]{37.821362, -122.505373, 37.842038, -122.465977};
+        List<Segment> segments = strava.findSegments(bounds);
         assertNotNull(segments);
 
-        for (Segment segment:segments)
-        {
-            System.out.println("Segment Explorer "+segment.toString());
-            System.out.println("CLIMB CATEGORY DESCRIPTION"+segment.getClimbCategory());
+        for (Segment segment : segments) {
+            System.out.println("Segment Explorer " + segment.toString());
+            System.out.println("CLIMB CATEGORY DESCRIPTION" + segment.getClimbCategory());
         }
-
     }
 
     @Test
-    public void testFindActivityStreams() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"});
+    public void testFindActivityStreams() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"});
         assertNotNull(streams);
 
-        for (Stream stream:streams)
-        {
-            System.out.println("STREAM TYPE "+stream.getType());
-             for (int i=0;i<stream.getData().size();i++)
-             {
-                 System.out.println("STREAM "+stream.getData().get(i));
-             }
-        }
-
-
-    }
-
-
-    @Test
-    public void testFindActivityStreamsWithResolution() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"},"low",null);
-        assertNotNull(streams);
-
-        for (Stream stream:streams)
-        {
-            System.out.println("STREAM TYPE "+stream.getType());
-            for (int i=0;i<stream.getData().size();i++)
-            {
-                assertEquals("low",stream.getResolution());
+        for (Stream stream : streams) {
+            System.out.println("STREAM TYPE " + stream.getType());
+            for (int i = 0; i < stream.getData().size(); i++) {
                 System.out.println("STREAM " + stream.getData().get(i));
             }
         }
-
-
     }
 
-
     @Test
-    public void testFindEffortStreams() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Stream> streams= strava.findEffortStreams(activityId,new String[]{"latlng","time","distance"});
+    public void testFindActivityStreamsWithResolution() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"}, "low", null);
         assertNotNull(streams);
 
-        for (Stream stream:streams)
-        {
-            System.out.println("STREAM TYPE "+stream.getType());
-            for (int i=0;i<stream.getData().size();i++)
-            {
-                System.out.println("STREAM "+stream.getData().get(i));
-            }
-        }
-
-
-    }
-
-
-    @Test
-    public void testFindEffortStreamsWithResolution() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Stream> streams= strava.findEffortStreams(activityId,new String[]{"latlng","time","distance"},"low",null);
-        assertNotNull(streams);
-
-        for (Stream stream:streams)
-        {
-            System.out.println("STREAM TYPE "+stream.getType());
-            for (int i=0;i<stream.getData().size();i++)
-            {
-                assertEquals("low",stream.getResolution());
+        for (Stream stream : streams) {
+            System.out.println("STREAM TYPE " + stream.getType());
+            for (int i = 0; i < stream.getData().size(); i++) {
+                assertEquals("low", stream.getResolution());
                 System.out.println("STREAM " + stream.getData().get(i));
             }
         }
-
-
     }
 
-
     @Test
-    public void testFindSegmentStreams() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"});
+    public void testFindEffortStreams() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Stream> streams = strava.findEffortStreams(activityId, new String[]{"latlng", "time", "distance"});
         assertNotNull(streams);
 
-        for (Stream stream:streams)
-        {
-            System.out.println("STREAM TYPE "+stream.getType());
-            for (int i=0;i<stream.getData().size();i++)
-            {
-                System.out.println("STREAM "+stream.getData().get(i));
-            }
-        }
-
-
-    }
-
-
-    @Test
-    public void testFindSegmentStreamsWithResolution() throws Exception{
-
-        JStravaV3 strava= new JStravaV3();strava.init(accessToken);
-        List<Stream> streams= strava.findActivityStreams(activityId,new String[]{"latlng","time","distance"},"low",null);
-        assertNotNull(streams);
-
-        for (Stream stream:streams)
-        {
-            System.out.println("STREAM TYPE "+stream.getType());
-            for (int i=0;i<stream.getData().size();i++)
-            {
-                assertEquals("low",stream.getResolution());
+        for (Stream stream : streams) {
+            System.out.println("STREAM TYPE " + stream.getType());
+            for (int i = 0; i < stream.getData().size(); i++) {
                 System.out.println("STREAM " + stream.getData().get(i));
             }
         }
-
-
     }
 
+    @Test
+    public void testFindEffortStreamsWithResolution() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Stream> streams = strava.findEffortStreams(activityId, new String[]{"latlng", "time", "distance"}, "low", null);
+        assertNotNull(streams);
 
+        for (Stream stream : streams) {
+            System.out.println("STREAM TYPE " + stream.getType());
+            for (int i = 0; i < stream.getData().size(); i++) {
+                assertEquals("low", stream.getResolution());
+                System.out.println("STREAM " + stream.getData().get(i));
+            }
+        }
+    }
+
+    @Test
+    public void testFindSegmentStreams() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"});
+        assertNotNull(streams);
+
+        for (Stream stream : streams) {
+            System.out.println("STREAM TYPE " + stream.getType());
+            for (int i = 0; i < stream.getData().size(); i++) {
+                System.out.println("STREAM " + stream.getData().get(i));
+            }
+        }
+    }
+
+    @Test
+    public void testFindSegmentStreamsWithResolution() {
+        JStravaV3 strava = new JStravaV3();
+        strava.init(accessToken);
+        List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"}, "low", null);
+        assertNotNull(streams);
+
+        for (Stream stream : streams) {
+            System.out.println("STREAM TYPE " + stream.getType());
+            for (int i = 0; i < stream.getData().size(); i++) {
+                assertEquals("low", stream.getResolution());
+                System.out.println("STREAM " + stream.getData().get(i));
+            }
+        }
+    }
 }

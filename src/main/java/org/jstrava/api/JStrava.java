@@ -11,9 +11,6 @@ import org.jstrava.entities.*;
  */
 public interface JStrava {
 
-
-
-
     Athlete getCurrentAthlete();
     Athlete updateAthlete(HashMap optionalParameters);
     Athlete findAthlete(int id);
