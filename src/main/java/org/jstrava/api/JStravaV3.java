@@ -21,8 +21,21 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 
 public class JStravaV3 implements JStrava {
+    
+    private static final String BASE_URL = "https://www.strava.com/api/v3";
+    private static final String ATHLETE_URL = BASE_URL + "/athlete";
+    private static final String ATHLETES_URL = BASE_URL + "/athletes";
+    private static final String ATHLETE_ACTIVITIES_URL = ATHLETE_URL + "/activities";
+    private static final String ATHLETE_CLUBS_URL = ATHLETE_URL + "/clubs";
+    private static final String ACTIVITIES_URL = BASE_URL + "/activities";
+    private static final String CLUBS_URL = BASE_URL + "/clubs";
+    private static final String SEGMENTS_URL = BASE_URL + "/segments";
+    private static final String ATHLETE_FOLLOWERS_URL = ATHLETE_URL + "/followers";
+    private static final String ATHLETE_FRIENDS_URL =  ATHLETE_URL + "/friends";
 
     private String accessToken;
     private String refreshToken;
@@ -43,8 +56,7 @@ public class JStravaV3 implements JStrava {
     @Override
     public Athlete getCurrentAthlete() {
         if (currentAthlete == null) {
-            String URL = "https://www.strava.com/api/v3/athlete";
-            String result = getResult(URL);
+            String result = getResult(ATHLETE_URL);
             currentAthlete = gson.fromJson(result, Athlete.class);
         }
         return currentAthlete;
@@ -52,255 +64,178 @@ public class JStravaV3 implements JStrava {
 
     @Override
     public Athlete updateAthlete(HashMap optionalParameters) {
-        String URL = "https://www.strava.com/api/v3/athlete";
-        String result = putResult(URL, optionalParameters);
-
-        Athlete athlete = gson.fromJson(result, Athlete.class);
-
-        return athlete;
+        String result = putResult(ATHLETE_URL, optionalParameters);
+        return gson.fromJson(result, Athlete.class);
     }
-
 
     @Override
     public Athlete findAthlete(int id) {
-
-        String URL = "https://www.strava.com/api/v3/athletes/" + id;
+        String URL = ATHLETE_URL + "/" + id;
         String result = getResult(URL);
 
-        Athlete athlete = gson.fromJson(result, Athlete.class);
-
-        return athlete;
-
+        return gson.fromJson(result, Athlete.class);
     }
-
 
     @Override
     public List<SegmentEffort> findAthleteKOMs(int athleteId) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + athleteId + "/koms";
+        String URL = ATHLETE_URL + "/" + athleteId + "/koms";
         String result = getResult(URL);
 
         SegmentEffort[] segmentEffortArray = gson.fromJson(result, SegmentEffort[].class);
-        List<SegmentEffort> segmentEfforts = Arrays.asList(segmentEffortArray);
-        return segmentEfforts;
+        return Arrays.asList(segmentEffortArray);
     }
 
     @Override
     public List<SegmentEffort> findAthleteKOMs(int athleteId, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + athleteId + "/koms?page=" + page + "&per_page=" + per_page;
+        String URL = ATHLETE_URL + "/" + athleteId + "/koms?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         SegmentEffort[] segmentEffortArray = gson.fromJson(result, SegmentEffort[].class);
-        List<SegmentEffort> segmentEfforts = Arrays.asList(segmentEffortArray);
-        return segmentEfforts;
+        return Arrays.asList(segmentEffortArray);
     }
 
     @Override
     public List<Athlete> getCurrentAthleteFriends() {
-        String URL = "https://www.strava.com/api/v3/athlete/friends";
-        String result = getResult(URL);
+        String result = getResult(ATHLETE_FRIENDS_URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> getCurrentAthleteFriends(int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/athlete/friends?page=" + page + "&per_page=" + per_page;
+        String URL = ATHLETE_FRIENDS_URL + "?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
-
 
     @Override
     public List<Athlete> findAthleteFriends(int id) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + id + "/friends";
+        String URL = ATHLETE_URL + "/" + id + "/friends";
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> findAthleteFriends(int id, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + id + "/friends?page=" + page + "&per_page=" + per_page;
+        String URL = ATHLETE_URL + "/" + id + "/friends?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> getCurrentAthleteFollowers() {
-        String URL = "https://www.strava.com/api/v3/athlete/followers";
-        String result = getResult(URL);
+        String result = getResult(ATHLETE_FOLLOWERS_URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> getCurrentAthleteFollowers(int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/athlete/followers?page=" + page + "&per_page=" + per_page;
+        String URL = ATHLETE_FOLLOWERS_URL + "?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
-
 
     @Override
     public List<Athlete> findAthleteFollowers(int id) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + id + "/followers";
+        String URL = ATHLETES_URL + "/" + id + "/followers";
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
 
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> findAthleteFollowers(int id, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + id + "/followers?page=" + page + "&per_page=" + per_page;
+        String URL = ATHLETES_URL + "/" + id + "/followers?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
-
 
     @Override
     public List<Athlete> findAthleteBothFollowing(int id) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + id + "/both-following";
+        String URL = ATHLETES_URL + "/" + id + "/both-following";
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> findAthleteBothFollowing(int id, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + id + "/both-following?page=" + page + "&per_page=" + per_page;
+        String URL = ATHLETES_URL + "/" + id + "/both-following?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public Activity createActivity(String name, String type, String start_date_local, int elapsed_time) {
-        String URL = "https://www.strava.com/api/v3/activities?name=" + name + "&type=" + type + "&start_date_local=" + start_date_local + "&elapsed_time=" + elapsed_time;
+        String URL = ACTIVITIES_URL + "?name=" + name + "&type=" + type + "&start_date_local=" + start_date_local + "&elapsed_time=" + elapsed_time;
         String result = postResult(URL);
 
-        System.out.println("RESULTADO" + result);
-        Activity activity = gson.fromJson(result, Activity.class);
-        return activity;
+        return gson.fromJson(result, Activity.class);
     }
 
     @Override
     public Activity createActivity(String name, String type, String start_date_local, int elapsed_time, String description, float distance) {
-        String URL = "https://www.strava.com/api/v3/activities?name=" + name + "&type=" + type + "&start_date_local=" + start_date_local + "&elapsed_time=" + elapsed_time + "&description=" + description + "&distance=" + distance;
+        String URL = ACTIVITIES_URL + "?name=" + name + "&type=" + type + "&start_date_local=" + start_date_local + "&elapsed_time=" + elapsed_time + "&description=" + description + "&distance=" + distance;
         String result = postResult(URL);
 
-        Activity activity = gson.fromJson(result, Activity.class);
-        return activity;
+        return gson.fromJson(result, Activity.class);
     }
 
     @Override
     public void deleteActivity(long activityId) {
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId;
+        String URL = ACTIVITIES_URL + "/" + activityId;
         String result = deleteResult(URL);
 
         gson.fromJson(result, String.class);
-
-
     }
 
     @Override
     public Activity findActivity(long id) {
-        String URL = "https://www.strava.com/api/v3/activities/" + id;
+        String URL = ACTIVITIES_URL + "/" + id;
         String result = getResult(URL);
 
-        Activity activity = gson.fromJson(result, Activity.class);
-
-        return activity;
+        return gson.fromJson(result, Activity.class);
     }
 
     @Override
     public Activity findActivity(long id, boolean include_all_efforts) {
-        String URL = "https://www.strava.com/api/v3/activities/" + id + "?include_all_efforts=" + include_all_efforts;
+        String URL = ACTIVITIES_URL + "/" + id + "?include_all_efforts=" + include_all_efforts;
         String result = getResult(URL);
 
-        Activity activity = gson.fromJson(result, Activity.class);
-
-        return activity;
+        return gson.fromJson(result, Activity.class);
     }
 
     @Override
     public Activity updateActivity(long activityId, HashMap optionalParameters) {
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId;
+        String URL = ACTIVITIES_URL + "/" + activityId;
         String result = putResult(URL, optionalParameters);
 
-        Activity activity = gson.fromJson(result, Activity.class);
-
-        return activity;
+        return gson.fromJson(result, Activity.class);
     }
 
     @Override
     public List<Activity> getCurrentAthleteActivitiesAll() {
         int resultsPerPage = 30;
         int page = 1;
-        List<Activity> currentActivities = new ArrayList<Activity>();
+        List<Activity> currentActivities = new ArrayList<>();
         List<Activity> activitiesPerPage;
 
         while ((activitiesPerPage = this.getCurrentAthleteActivities(page, resultsPerPage)).size() > 0) {
@@ -312,328 +247,244 @@ public class JStravaV3 implements JStrava {
 
     @Override
     public List<Activity> getCurrentAthleteActivities() {
-        String URL = "https://www.strava.com/api/v3/athlete/activities";
-        String result = getResult(URL);
+        String result = getResult(ATHLETE_ACTIVITIES_URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> currentActivities = Arrays.asList(activitiesArray);
-        return currentActivities;
+        return Arrays.asList(activitiesArray);
     }
 
     @Override
     public List<Activity> getCurrentAthleteActivities(int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/athlete/activities?page=" + page + "&per_page=" + per_page;
+        String URL = ATHLETE_ACTIVITIES_URL + "?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> currentActivities = Arrays.asList(activitiesArray);
-        return currentActivities;
+        return Arrays.asList(activitiesArray);
     }
 
     @Override
     public List<Activity> getCurrentAthleteActivitiesBeforeDate(long before) {
-        String URL = "https://www.strava.com/api/v3/athlete/activities?before=" + before;
+        String URL = ATHLETE_ACTIVITIES_URL + "?before=" + before;
         String result = getResult(URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> currentActivities = Arrays.asList(activitiesArray);
-        return currentActivities;
+        return Arrays.asList(activitiesArray);
     }
 
     @Override
     public List<Activity> getCurrentAthleteActivitiesAfterDate(long after) {
-        String URL = "https://www.strava.com/api/v3/athlete/activities?after=" + after;
+        String URL = ATHLETE_ACTIVITIES_URL + "?after=" + after;
         String result = getResult(URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> currentActivities = Arrays.asList(activitiesArray);
-        return currentActivities;
+        return Arrays.asList(activitiesArray);
     }
 
-
     public List<Activity> getCurrentFriendsActivities() {
-        String URL = "https://www.strava.com/api/v3/activities/following";
+        String URL = ACTIVITIES_URL + "/following";
         String result = getResult(URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> currentFriendsActivities = Arrays.asList(activitiesArray);
-        return currentFriendsActivities;
+        return Arrays.asList(activitiesArray);
     }
 
     public List<Activity> getCurrentFriendsActivities(int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/activities/following?page=" + page + "&per_page=" + per_page;
+        String URL = ACTIVITIES_URL + "/following?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> currentFriendsActivities = Arrays.asList(activitiesArray);
-        return currentFriendsActivities;
+        return Arrays.asList(activitiesArray);
     }
 
     @Override
     public List<ActivityZone> getActivityZones(long activityId) {
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/zones";
+        String URL = ACTIVITIES_URL + "/" + activityId + "/zones";
         String result = getResult(URL);
 
         ActivityZone[] zonesArray = gson.fromJson(result, ActivityZone[].class);
-        List<ActivityZone> zones = Arrays.asList(zonesArray);
-        return zones;
+        return Arrays.asList(zonesArray);
     }
-
 
     @Override
     public List<LapsItem> findActivityLaps(long activityId) {
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/laps";
+        String URL = ACTIVITIES_URL + "/" + activityId + "/laps";
         String result = getResult(URL);
 
         LapsItem[] LapsItemsArray = gson.fromJson(result, LapsItem[].class);
-        List<LapsItem> LapsItems = Arrays.asList(LapsItemsArray);
-        return LapsItems;
+        return Arrays.asList(LapsItemsArray);
     }
-
 
     @Override
     public List<Comment> findActivityComments(long activityId) {
-
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/comments";
+        String URL = ACTIVITIES_URL + "/" + activityId + "/comments";
         String result = getResult(URL);
 
         Comment[] commentsArray = gson.fromJson(result, Comment[].class);
-
-
-        List<Comment> comments = Arrays.asList(commentsArray);
-
-
-        return comments;
+        return Arrays.asList(commentsArray);
     }
 
     @Override
     public List<Comment> findActivityComments(long activityId, boolean markdown, int page, int per_page) {
-
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/comments?markdown=" + markdown + "&page=" + page + "&per_page=" + per_page;
+        String URL = ACTIVITIES_URL + "/" + activityId + "/comments?markdown=" + markdown + "&page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Comment[] commentsArray = gson.fromJson(result, Comment[].class);
-
-
-        List<Comment> comments = Arrays.asList(commentsArray);
-
-
-        return comments;
+        return Arrays.asList(commentsArray);
     }
-
 
     @Override
     public List<Athlete> findActivityKudos(long activityId) {
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/kudos";
+        String URL = ACTIVITIES_URL + "/" + activityId + "/kudos";
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> findActivityKudos(long activityId, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/kudos?page=" + page + "&per_page=" + per_page;
+        String URL = ACTIVITIES_URL + "/" + activityId + "/kudos?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
-
 
     @Override
     public List<Athlete> findClubMembers(int clubId) {
-        String URL = "https://www.strava.com/api/v3/clubs/" + clubId + "/members";
+        String URL = CLUBS_URL + "/" + clubId + "/members";
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
 
     @Override
     public List<Athlete> findClubMembers(int clubId, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/clubs/" + clubId + "/members?page=" + page + "&per_page=" + per_page;
+        String URL = CLUBS_URL + "/" + clubId + "/members?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Athlete[] athletesArray = gson.fromJson(result, Athlete[].class);
-
-
-        List<Athlete> athletes = Arrays.asList(athletesArray);
-
-
-        return athletes;
+        return Arrays.asList(athletesArray);
     }
-
 
     @Override
     public List<Activity> findClubActivities(int clubId) {
-        String URL = "https://www.strava.com/api/v3/clubs/" + clubId + "/activities";
+        String URL = CLUBS_URL + "/" + clubId + "/activities";
         String result = getResult(URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> clubActivities = Arrays.asList(activitiesArray);
-        return clubActivities;
+        return Arrays.asList(activitiesArray);
     }
-
 
     @Override
     public List<Activity> findClubActivities(int clubId, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/clubs/" + clubId + "/activities" + "?page=" + page + "&per_page=" + per_page;
+        String URL = CLUBS_URL + "/" + clubId + "/activities" + "?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
 
         Activity[] activitiesArray = gson.fromJson(result, Activity[].class);
-        List<Activity> clubActivities = Arrays.asList(activitiesArray);
-        return clubActivities;
+        return Arrays.asList(activitiesArray);
     }
 
     @Override
     public Club findClub(int id) {
-        String URL = "https://www.strava.com/api/v3/clubs/" + id;
+        String URL = CLUBS_URL + "/" + id;
         String result = getResult(URL);
 
-        Club club = gson.fromJson(result, Club.class);
-
-        return club;
+        return gson.fromJson(result, Club.class);
     }
-
 
     public List<Club> getCurrentAthleteClubs() {
-        String URL = "https://www.strava.com/api/v3/athlete/clubs";
-        String result = getResult(URL);
+        String result = getResult(ATHLETE_CLUBS_URL);
 
         Club[] clubsArray = gson.fromJson(result, Club[].class);
-
-
-        List<Club> clubs = Arrays.asList(clubsArray);
-
-
-        return clubs;
+        return Arrays.asList(clubsArray);
     }
-
 
     @Override
     public Gear findGear(String id) {
-        String URL = "https://www.strava.com/api/v3/gear/" + id;
+        String URL = BASE_URL + "/gear/" + id;
         String result = getResult(URL);
 
-        Gear gear = gson.fromJson(result, Gear.class);
-
-        return gear;
+        return gson.fromJson(result, Gear.class);
     }
 
     @Override
     public Route findRoute(int routeId) {
-
-        String URL = "https://www.strava.com/api/v3/route/" + routeId;
+        String URL = BASE_URL + "/route/" + routeId;
         String result = getResult(URL);
 
-        Route route = gson.fromJson(result, Route.class);
-
-        return route;
-
+        return gson.fromJson(result, Route.class);
     }
 
     @Override
     public List<Route> findAthleteRoutes(int athleteId) {
-        String URL = "https://www.strava.com/api/v3/athletes/" + athleteId + "/routes";
+        String URL = ATHLETES_URL + "/" + athleteId + "/routes";
         String result = getResult(URL);
 
         Route[] routesArray = gson.fromJson(result, Route[].class);
-        List<Route> athleteRoutes = Arrays.asList(routesArray);
-        return athleteRoutes;
+        return Arrays.asList(routesArray);
     }
 
     @Override
     public Segment findSegment(long segmentId) {
-        String URL = "https://www.strava.com/api/v3/segments/" + segmentId;
+        String URL = SEGMENTS_URL + "/" + segmentId;
         String result = getResult(URL);
 
-        Segment segment = gson.fromJson(result, Segment.class);
-        return segment;
+        return gson.fromJson(result, Segment.class);
     }
 
-
     public List<Segment> getCurrentStarredSegment() {
-        String URL = "https://www.strava.com/api/v3/segments/starred";
+        String URL = SEGMENTS_URL + "/starred";
         String result = getResult(URL);
 
         Segment[] segmentsArray = gson.fromJson(result, Segment[].class);
-
-
-        List<Segment> segments = Arrays.asList(segmentsArray);
-
-
-        return segments;
+        return Arrays.asList(segmentsArray);
     }
-
 
     @Override
     public SegmentLeaderBoard findSegmentLeaderBoard(long segmentId) {
-        String URL = "https://www.strava.com/api/v3/segments/" + segmentId + "/leaderboard";
-        String result = getResult(URL);
-
-        SegmentLeaderBoard segmentLeaderBoard = gson.fromJson(result, SegmentLeaderBoard.class);
-        return segmentLeaderBoard;
-    }
-
-
-    @Override
-    public SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, int page, int per_page) {
-        String URL = "https://www.strava.com/api/v3/segments/" + segmentId + "/leaderboard?page=" + page + "&per_page=" + per_page;
+        String URL = SEGMENTS_URL + "/" + segmentId + "/leaderboard";
         String result = getResult(URL);
 
         return gson.fromJson(result, SegmentLeaderBoard.class);
     }
 
+    @Override
+    public SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, int page, int per_page) {
+        String URL = SEGMENTS_URL + "/" + segmentId + "/leaderboard?page=" + page + "&per_page=" + per_page;
+        String result = getResult(URL);
+
+        return gson.fromJson(result, SegmentLeaderBoard.class);
+    }
 
     @Override
     public SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, HashMap optionalParameters) {
-        String URL = "https://www.strava.com/api/v3/segments/" + segmentId + "/leaderboard";
+        String URL = SEGMENTS_URL + "/" + segmentId + "/leaderboard";
         String result = getResult(URL, optionalParameters);
 
         return gson.fromJson(result, SegmentLeaderBoard.class);
     }
 
-
     @Override
     public List<Segment> findSegments(double[] bound) {
-        String URL = "https://www.strava.com/api/v3/segments/explore?bounds=" + bound.toString();
+        String URL = SEGMENTS_URL + "/explore?bounds=" + bound.toString();
         String result = getResult(URL);
-
 
         //////////UGLY HACK TO ALLOW GSON TO PARSE THE JSON STRING AND RETURN A LIST OF SEGMENTS
 
         String segmentString = "\\{\"segments\":";
-
         result = result.replaceFirst(segmentString, "");
         result = result.substring(0, result.lastIndexOf("}"));
 
-
         Segment[] segmentsArray = gson.fromJson(result, Segment[].class);
-        List<Segment> segments = Arrays.asList(segmentsArray);
-        return segments;
+        return Arrays.asList(segmentsArray);
     }
 
     @Override
     public List<Segment> findSegments(double[] bounds, HashMap optionalParameters) {
-        String URL = "https://www.strava.com/api/v3/segments/explore?bounds=" + bounds.toString();
+        String URL = SEGMENTS_URL + "/explore?bounds=" + bounds.toString();
         String result = getResult(URL, optionalParameters);
-
 
         //////////UGLY HACK TO ALLOW GSON TO PARSE THE JSON STRING AND RETURN A LIST OF SEGMENTS
 
@@ -643,28 +494,21 @@ public class JStravaV3 implements JStrava {
             result = result.substring(0, result.lastIndexOf("}"));
         }
 
-
         Segment[] segmentsArray = gson.fromJson(result, Segment[].class);
-        List<Segment> segments = Arrays.asList(segmentsArray);
-        return segments;
+        return Arrays.asList(segmentsArray);
     }
-
 
     @Override
     public SegmentEffort findSegmentEffort(int id) {
-        String URL = "https://www.strava.com/api/v3/segment_efforts/" + id;
+        String URL = BASE_URL + "/segment_efforts/" + id;
         String result = getResult(URL);
 
-        SegmentEffort segmentEffort = gson.fromJson(result, SegmentEffort.class);
-        return segmentEffort;
+        return gson.fromJson(result, SegmentEffort.class);
     }
-
 
     @Override
     public List<Stream> findActivityStreams(long activityId, String[] types) {
-
         StringBuilder builder = new StringBuilder();
-
         for (int i = 0; i < types.length; i++) {
             if (i != 0) {
                 builder.append(",");
@@ -672,19 +516,16 @@ public class JStravaV3 implements JStrava {
             builder.append(types[i]);
         }
 
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/streams/" + builder.toString();
+        String URL = ACTIVITIES_URL + "/" + activityId + "/streams/" + builder;
         String result = getResult(URL);
 
         Stream[] streamsArray = gson.fromJson(result, Stream[].class);
-        List<Stream> streams = Arrays.asList(streamsArray);
-        return streams;
-
+        return Arrays.asList(streamsArray);
     }
 
     @Override
     public List<Stream> findActivityStreams(long activityId, String[] types, String resolution, String series_type) {
         StringBuilder builder = new StringBuilder();
-
         for (int i = 0; i < types.length; i++) {
             if (i != 0) {
                 builder.append(",");
@@ -692,7 +533,7 @@ public class JStravaV3 implements JStrava {
             builder.append(types[i]);
         }
 
-        String URL = "https://www.strava.com/api/v3/activities/" + activityId + "/streams/" + builder.toString() + "?resolution=" + resolution;
+        String URL = ACTIVITIES_URL + "/" + activityId + "/streams/" + builder + "?resolution=" + resolution;
 
         if (series_type != null && !series_type.isEmpty()) {
             URL += "&series_type=" + series_type;
@@ -701,10 +542,8 @@ public class JStravaV3 implements JStrava {
         String result = getResult(URL);
 
         Stream[] streamsArray = gson.fromJson(result, Stream[].class);
-        List<Stream> streams = Arrays.asList(streamsArray);
-        return streams;
+        return Arrays.asList(streamsArray);
     }
-
 
     @Override
     public List<Stream> findEffortStreams(int id, String[] types) {
@@ -717,12 +556,11 @@ public class JStravaV3 implements JStrava {
             builder.append(types[i]);
         }
 
-        String URL = "https://www.strava.com/api/v3/segment_efforts/" + id + "/streams/" + builder.toString();
+        String URL = BASE_URL + "/segment_efforts/" + id + "/streams/" + builder;
         String result = getResult(URL);
 
         Stream[] streamsArray = gson.fromJson(result, Stream[].class);
-        List<Stream> streams = Arrays.asList(streamsArray);
-        return streams;
+        return Arrays.asList(streamsArray);
     }
 
     @Override
@@ -736,7 +574,7 @@ public class JStravaV3 implements JStrava {
             builder.append(types[i]);
         }
 
-        String URL = "https://www.strava.com/api/v3/segment_efforts/" + id + "/streams/" + builder.toString() + "?resolution=" + resolution;
+        String URL = BASE_URL + "/segment_efforts/" + id + "/streams/" + builder + "?resolution=" + resolution;
 
         if (series_type != null && !series_type.isEmpty()) {
             URL += "&series_type=" + series_type;
@@ -745,8 +583,7 @@ public class JStravaV3 implements JStrava {
         String result = getResult(URL);
 
         Stream[] streamsArray = gson.fromJson(result, Stream[].class);
-        List<Stream> streams = Arrays.asList(streamsArray);
-        return streams;
+        return Arrays.asList(streamsArray);
     }
 
     @Override
@@ -760,12 +597,11 @@ public class JStravaV3 implements JStrava {
             builder.append(types[i]);
         }
 
-        String URL = "https://www.strava.com/api/v3/segments/" + id + "/streams/" + builder.toString();
+        String URL = SEGMENTS_URL + "/" + id + "/streams/" + builder;
         String result = getResult(URL);
 
         Stream[] streamsArray = gson.fromJson(result, Stream[].class);
-        List<Stream> streams = Arrays.asList(streamsArray);
-        return streams;
+        return Arrays.asList(streamsArray);
     }
 
     @Override
@@ -779,7 +615,7 @@ public class JStravaV3 implements JStrava {
             builder.append(types[i]);
         }
 
-        String URL = "https://www.strava.com/api/v3/segments/" + id + "/streams/" + builder.toString() + "?resolution=" + resolution;
+        String URL = SEGMENTS_URL + "/" + id + "/streams/" + builder + "?resolution=" + resolution;
 
         if (series_type != null && !series_type.isEmpty()) {
             URL += "&series_type=" + series_type;
@@ -788,18 +624,16 @@ public class JStravaV3 implements JStrava {
         String result = getResult(URL);
 
         Stream[] streamsArray = gson.fromJson(result, Stream[].class);
-        List<Stream> streams = Arrays.asList(streamsArray);
-        return streams;
+        return Arrays.asList(streamsArray);
     }
 
     @Override
     public UploadStatus uploadActivity(String data_type, File file) {
-        String URL = "https://www.strava.com/api/v3/uploads";
+        String URL = BASE_URL + "/uploads";
         String result = getResultUploadActivity(URL, file, data_type);
         Gson gson = new Gson();
-        UploadStatus status = gson.fromJson(result, UploadStatus.class);
 
-        return status;
+        return gson.fromJson(result, UploadStatus.class);
     }
 
     @Override
@@ -809,13 +643,10 @@ public class JStravaV3 implements JStrava {
 
     @Override
     public UploadStatus checkUploadStatus(int uploadId) {
-
-        String URL = "https://www.strava.com/api/v3/uploads/" + uploadId;
+        String URL = BASE_URL + "/uploads/" + uploadId;
         String result = getResult(URL);
 
-        UploadStatus status = gson.fromJson(result, UploadStatus.class);
-
-        return status;
+        return gson.fromJson(result, UploadStatus.class);
     }
 
     private String getExtension(String fileName) {
@@ -980,10 +811,9 @@ public class JStravaV3 implements JStrava {
                 String key = (String) iterator.next();
                 sb.append(key);
                 sb.append("=");
-                sb.append(URLEncoder.encode(optionalParameters.get(key).toString(), "UTF-8"));
+                sb.append(URLEncoder.encode(optionalParameters.get(key).toString(), UTF_8));
                 index++;
             }
-
 
             URI uri = new URI(String.format(sb.toString()));
             URL url = uri.toURL();
@@ -999,39 +829,26 @@ public class JStravaV3 implements JStrava {
                         + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
 
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
             String output;
             sb = new StringBuilder();
             while ((output = br.readLine()) != null) {
                 sb.append(output);
             }
-
             conn.disconnect();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             return null;
         }
         return sb.toString();
-
     }
 
-
     private String postResult(String URL) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         try {
-
-            String finalUrl = "";
-
             String[] parsedUrl = URL.split("\\?");
-            String params = URLEncoder.encode(parsedUrl[1], "UTF-8").replace("%3D", "=").replace("%26", "&");
+            String params = URLEncoder.encode(parsedUrl[1], UTF_8).replace("%3D", "=").replace("%26", "&");
 
             URL url = new URL(parsedUrl[0] + "?" + params);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -1045,7 +862,6 @@ public class JStravaV3 implements JStrava {
             wr.flush();
             wr.close();
 
-
             boolean redirect = false;
             // normally, 3xx is redirect
             int status = conn.getResponseCode();
@@ -1056,32 +872,22 @@ public class JStravaV3 implements JStrava {
                     redirect = true;
             }
 
-
             if (redirect) {
-
                 // get redirect url from "location" header field
                 String newUrl = conn.getHeaderField("Location");
 
-
-                // open the new connnection again
+                // open the new connection again
                 conn = (HttpURLConnection) new URL(newUrl).openConnection();
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setRequestProperty("Authorization", "Bearer " + getAccessToken());
-
-
             }
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String inputLine;
-
-
             while ((inputLine = in.readLine()) != null) {
                 sb.append(inputLine);
             }
             in.close();
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1091,13 +897,13 @@ public class JStravaV3 implements JStrava {
 
 
     private String putResult(String URL) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb;
 
         try {
             String finalUrl = "";
             if (URL.contains("?")) {
                 String[] parsedUrl = URL.split("\\?");
-                String params = URLEncoder.encode(parsedUrl[1], "UTF-8");
+                String params = URLEncoder.encode(parsedUrl[1], UTF_8);
                 finalUrl = parsedUrl[0] + "?" + params;
             } else {
                 finalUrl = URL;
@@ -1114,10 +920,7 @@ public class JStravaV3 implements JStrava {
                         + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
 
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
-
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
             String output;
             sb = new StringBuilder();
             while ((output = br.readLine()) != null) {
@@ -1125,23 +928,18 @@ public class JStravaV3 implements JStrava {
             }
 
             conn.disconnect();
-
         } catch (IOException e) {
 
             e.printStackTrace();
             return null;
         }
-
         return sb.toString();
-
     }
-
 
     private String putResult(String URL, HashMap optionalParameters) {
         StringBuilder sb = new StringBuilder();
         sb.append(URL);
         try {
-
             Iterator iterator = optionalParameters.keySet().iterator();
 
             int index = 0;
@@ -1154,16 +952,14 @@ public class JStravaV3 implements JStrava {
                 String key = (String) iterator.next();
                 sb.append(key);
                 sb.append("=");
-                sb.append(URLEncoder.encode(optionalParameters.get(key).toString(), "UTF-8"));
+                sb.append(URLEncoder.encode(optionalParameters.get(key).toString(), UTF_8));
                 index++;
             }
 
             URI uri = new URI(sb.toString());
             URL url = uri.toURL();
 
-
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
             conn.setRequestMethod("PUT");
             conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("Authorization", "Bearer " + getAccessToken());
@@ -1172,43 +968,29 @@ public class JStravaV3 implements JStrava {
                         + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
 
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
             String output;
             sb = new StringBuilder();
             while ((output = br.readLine()) != null) {
                 sb.append(output);
             }
-
             conn.disconnect();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             return null;
         }
         return sb.toString();
-
     }
-
 
     private String deleteResult(String URL) {
         StringBuilder sb = new StringBuilder();
         sb.append(URL);
         try {
-
-
             URI uri = new URI(String.format(sb.toString()));
             URL url = uri.toURL();
 
-
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
             conn.setRequestMethod("DELETE");
             conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("Authorization", "Bearer " + getAccessToken());
@@ -1217,30 +999,20 @@ public class JStravaV3 implements JStrava {
                         + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
 
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
             String output;
             sb = new StringBuilder();
             while ((output = br.readLine()) != null) {
                 sb.append(output);
             }
-
             conn.disconnect();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             return null;
         }
         return sb.toString();
-
     }
-
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
