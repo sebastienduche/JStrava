@@ -1,7 +1,19 @@
 package org.jstrava.api;
 
 import com.google.gson.Gson;
-import org.jstrava.entities.*;
+import org.jstrava.entities.Activity;
+import org.jstrava.entities.ActivityZone;
+import org.jstrava.entities.Athlete;
+import org.jstrava.entities.Club;
+import org.jstrava.entities.Comment;
+import org.jstrava.entities.Gear;
+import org.jstrava.entities.LapsItem;
+import org.jstrava.entities.Route;
+import org.jstrava.entities.Segment;
+import org.jstrava.entities.SegmentEffort;
+import org.jstrava.entities.SegmentLeaderBoard;
+import org.jstrava.entities.Stream;
+import org.jstrava.entities.UploadStatus;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -22,7 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
 
 public class JStravaV3 implements JStrava {
     
@@ -788,11 +799,9 @@ public class JStravaV3 implements JStrava {
         return List.of(resultUrl.toString(), sb.toString());
     }
 
-
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
 
     private String getResult(String URL, HashMap optionalParameters) {
         StringBuilder sb = new StringBuilder();
@@ -894,7 +903,6 @@ public class JStravaV3 implements JStrava {
 
         return sb.toString();
     }
-
 
     private String putResult(String URL) {
         StringBuilder sb;
