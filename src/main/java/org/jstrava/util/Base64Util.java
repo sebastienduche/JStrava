@@ -3,12 +3,13 @@ package org.jstrava.util;
 import org.apache.commons.net.util.Base64;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Base64Util {
-    public static void encode(String value, String file) {
+    public static void encode(String value, File file) {
         byte[] to = Base64.encodeBase64(value.getBytes());
         try {
             FileOutputStream writer = new FileOutputStream(file);
@@ -20,7 +21,7 @@ public class Base64Util {
         }
     }
 
-    public static String decode(String file) {
+    public static String decode(File file) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String sBuf = reader.readLine();
