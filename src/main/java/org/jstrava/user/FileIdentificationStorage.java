@@ -30,6 +30,9 @@ public class FileIdentificationStorage extends IdentificationStorage {
 
     @Override
     public void load() {
+        if (!file.exists()) {
+            return;
+        }
         String decode = Base64Util.decode(file);
         if (decode == null) {
             throw new RuntimeException("No content in the file " + file);

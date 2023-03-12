@@ -6,7 +6,6 @@ import org.jstrava.authenticator.RefreshTokenResponse;
 import org.jstrava.authenticator.StravaAuthenticator;
 import org.jstrava.user.IdentificationStorage;
 
-import javax.swing.JOptionPane;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -15,11 +14,11 @@ import java.net.URL;
 public class StravaConnection {
 
     private final IdentificationStorage identificationStorage;
-    private static final String PARAM_CODE = "$code=";
-    private static final String PARAM_SCOPE = "&scope=";
-
     private final JStravaV3 jStravaV3;
     private final StravaAuthenticator stravaAuthenticator;
+
+    private static final String PARAM_CODE = "&code=";
+    private static final String PARAM_SCOPE = "&scope=";
     private final static String URL_GET_CODE = "https://www.strava.com/oauth/authorize?client_id=%d&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read";
 
     public StravaConnection(IdentificationStorage identificationStorage) throws IOException, URISyntaxException {
@@ -31,19 +30,21 @@ public class StravaConnection {
         jStravaV3.setRefreshToken(identificationStorage.getRefreshToken());
         if (identificationStorage.getRefreshToken() != null) {
             refreshToken();
-        } else {
-            requestCode();
         }
     }
 
     public void requestCode() throws IOException, URISyntaxException {
         Desktop.getDesktop().browse(new URL(getCodeUrl()).toURI());
-        String value = JOptionPane.showInputDialog("Please enter the URL after accepting the authentication");
+    }
 
-        int indexCode = value.indexOf(PARAM_CODE);
+    public void parseUrl(String url) {
+        int indexCode = url.indexOf(PARAM_CODE);
+        if (indexCode == -1) {
+            throw new RuntimeException("The provided URL doesn't contain " + PARAM_CODE + " \n" + url);
+        }
         int indexStart = indexCode + PARAM_CODE.length();
-        int indexEnd = value.indexOf(PARAM_SCOPE);
-        String code = value.substring(indexStart, indexEnd);
+        int indexEnd = url.indexOf(PARAM_SCOPE);
+        String code = url.substring(indexStart, indexEnd);
         tokenExchange(code);
     }
 
@@ -56,14 +57,10 @@ public class StravaConnection {
 
     public void refreshToken() {
         if (jStravaV3.getRefreshToken() == null) {
-            return;
+            throw new RuntimeException("This method can't be called without refresh token!. The method requestCode must be called");
         }
         RefreshTokenResponse refreshTokenResponse = stravaAuthenticator.refreshToken(jStravaV3.getRefreshToken());
-        jStravaV3.setAccessToken(refreshTokenResponse.getAccess_token());
-        jStravaV3.setRefreshToken(refreshTokenResponse.getRefresh_token());
-        identificationStorage.setAccessToken(refreshTokenResponse.getAccess_token());
-        identificationStorage.setRefreshToken(refreshTokenResponse.getRefresh_token());
-        identificationStorage.save();
+        saveTokens(refreshTokenResponse.getAccess_token(), refreshTokenResponse.getRefresh_token());
     }
 
     public String getCodeUrl() {
@@ -72,12 +69,14 @@ public class StravaConnection {
 
     private void tokenExchange(String code) {
         ExchangeResponse exchangeResponse = stravaAuthenticator.tokenExchange(code);
-        System.out.println(exchangeResponse.getAccess_token());
-        System.out.println(exchangeResponse);
-        jStravaV3.setAccessToken(exchangeResponse.getAccess_token());
-        jStravaV3.setRefreshToken(exchangeResponse.getRefresh_token());
-        identificationStorage.setAccessToken(exchangeResponse.getAccess_token());
-        identificationStorage.setRefreshToken(exchangeResponse.getRefresh_token());
+        saveTokens(exchangeResponse.getAccess_token(), exchangeResponse.getRefresh_token());
+    }
+
+    private void saveTokens(String accessToken, String refreshToken) {
+        jStravaV3.setAccessToken(accessToken);
+        jStravaV3.setRefreshToken(refreshToken);
+        identificationStorage.setAccessToken(accessToken);
+        identificationStorage.setRefreshToken(refreshToken);
         identificationStorage.save();
     }
 }
