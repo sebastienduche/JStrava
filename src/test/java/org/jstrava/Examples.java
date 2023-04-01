@@ -1,6 +1,7 @@
 package org.jstrava;
 
 import org.jstrava.user.FileIdentificationStorage;
+import org.jstrava.user.IdentificationStorage;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +17,15 @@ public class Examples {
         // This example is to initialise the Strava tokens when you don't have any tokens yet.
         StravaFirstConfigurationDialog stravaFirstConfigurationDialog = new StravaFirstConfigurationDialog();
 
-        if (stravaFirstConfigurationDialog.getIdentificationStorage() != null) {
+        IdentificationStorage identificationStorage = stravaFirstConfigurationDialog.getIdentificationStorage();
+        if (identificationStorage != null) {
+            if (identificationStorage instanceof FileIdentificationStorage) {
+                // The file contains the datas
+                File fileSaved = ((FileIdentificationStorage) identificationStorage).getFile();
+            }
             StravaConnection stravaConnection;
             try {
-                stravaConnection = new StravaConnection(stravaFirstConfigurationDialog.getIdentificationStorage());
+                stravaConnection = new StravaConnection(identificationStorage);
             } catch (IOException | URISyntaxException e) {
                 throw new RuntimeException(e);
             }

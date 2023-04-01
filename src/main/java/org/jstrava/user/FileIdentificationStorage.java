@@ -47,6 +47,9 @@ public class FileIdentificationStorage extends IdentificationStorage {
             setAccessToken(values[2]);
             setRefreshToken(values[3]);
         }
+    }
 
+    public File getFile() {
+        return file;
     }
 }
