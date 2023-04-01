@@ -13,6 +13,7 @@ public class Examples {
     }
 
     private static void exampleOne() {
+        // This example is to initialise the Strava tokens when you don't have any tokens yet.
         StravaFirstConfigurationDialog stravaFirstConfigurationDialog = new StravaFirstConfigurationDialog();
 
         if (stravaFirstConfigurationDialog.getIdentificationStorage() != null) {
@@ -28,6 +29,7 @@ public class Examples {
     }
 
     public static void exampleTwo() {
+        // This example reads the existing settings in the file to connect to Strava
         File file = new File("test.txt");
         FileIdentificationStorage fileIdentificationStorage = new FileIdentificationStorage(file);
 
@@ -42,6 +44,7 @@ public class Examples {
     }
 
     public static void exampleThree() {
+        // This example allows you to set up the Strava connection by filling your existing tokens
         StravaConfigurationDialog stravaConfigurationDialog = new StravaConfigurationDialog();
 
         if (stravaConfigurationDialog.getIdentificationStorage() != null) {
