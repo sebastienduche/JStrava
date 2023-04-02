@@ -1,4 +1,4 @@
-JStrava Extension 1.1
+JStrava Extension 1.2
 =======
 
 Java Library for the Strava API
@@ -20,6 +20,13 @@ This JDialog allows to easily initialise the configuration file with access toke
 StravaConnection and FileIdentificationStorage  
 By using these 2 objects, the access token will be managed and refreshed. With the getStrava() method, the API is accessible.
 
+Extra comment
+=======
+
+function : String getActivityAsGPX(long activityId);
+Strava API doesn't support the export_gpx path for activities.
+You need to open this url in the browser to have the gpx file download.
+You need to be logged in to your Strava account.
 
 Example Usage
 =======

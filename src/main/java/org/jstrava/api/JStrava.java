@@ -34,6 +34,7 @@ public interface JStrava {
     Activity updateActivity(long activityId, HashMap optionalParameters);
     List<Activity> getCurrentAthleteActivitiesAll();
     List<Activity> getCurrentAthleteActivities();
+    List<Route> getCurrentAthleteRoutes();
     List<Activity> getCurrentAthleteActivities(int page, int per_page);
     List<Activity> getCurrentAthleteActivitiesBeforeDate(long before);
     List<Activity> getCurrentAthleteActivitiesAfterDate(long after);
@@ -53,7 +54,14 @@ public interface JStrava {
     List<Club> getCurrentAthleteClubs();
     Gear findGear(String id);
 
-    Route findRoute(int routeId);
+    Route findRoute(long routeId);
+    String getRouteAsGPX(long routeId);
+    /*
+    Strava API doesn't support the export_gpx path for activities
+    You need to open this url in the browser to have the gpx file download.
+    You need to be logged in to your Strava account
+     */
+    String getActivityAsGPX(long activityId);
 
     List<Route> findAthleteRoutes(int athleteId);
 

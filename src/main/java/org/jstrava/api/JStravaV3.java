@@ -41,12 +41,14 @@ public class JStravaV3 implements JStrava {
     private static final String ATHLETE_URL = BASE_URL + "/athlete";
     private static final String ATHLETES_URL = BASE_URL + "/athletes";
     private static final String ATHLETE_ACTIVITIES_URL = ATHLETE_URL + "/activities";
+    private static final String ATHLETE_ROUTES_URL = ATHLETE_URL + "/routes";
     private static final String ATHLETE_CLUBS_URL = ATHLETE_URL + "/clubs";
     private static final String ACTIVITIES_URL = BASE_URL + "/activities";
     private static final String CLUBS_URL = BASE_URL + "/clubs";
     private static final String SEGMENTS_URL = BASE_URL + "/segments";
     private static final String ATHLETE_FOLLOWERS_URL = ATHLETE_URL + "/followers";
     private static final String ATHLETE_FRIENDS_URL =  ATHLETE_URL + "/friends";
+    private static final String ROUTE_URL = BASE_URL + "/route";
 
     private String accessToken;
     private String refreshToken;
@@ -265,6 +267,14 @@ public class JStravaV3 implements JStrava {
     }
 
     @Override
+    public List<Route> getCurrentAthleteRoutes() {
+        String result = getResult(ATHLETE_ROUTES_URL);
+
+        Route[] routesArray = gson.fromJson(result, Route[].class);
+        return Arrays.asList(routesArray);
+    }
+
+    @Override
     public List<Activity> getCurrentAthleteActivities(int page, int per_page) {
         String URL = ATHLETE_ACTIVITIES_URL + "?page=" + page + "&per_page=" + per_page;
         String result = getResult(URL);
@@ -421,11 +431,31 @@ public class JStravaV3 implements JStrava {
     }
 
     @Override
-    public Route findRoute(int routeId) {
-        String URL = BASE_URL + "/route/" + routeId;
+    public Route findRoute(long routeId) {
+        String URL = ROUTE_URL + "/" + routeId;
         String result = getResult(URL);
 
         return gson.fromJson(result, Route.class);
+    }
+
+    @Override
+    public String getRouteAsGPX(long routeId) {
+        String URL = ROUTE_URL + "/" + routeId + "/export_gpx";
+        List<String> result = getResult(URL, true, false);
+        if (result == null) {
+            return null;
+        }
+        return result.get(1);
+    }
+
+    /*
+    Strava API doesn't support the export_gpx path for activities
+    You need to open this url in the browser to have the gpx file download.
+    You need to be logged in to your Strava account
+     */
+    @Override
+    public String getActivityAsGPX(long activityId) {
+        return "https://www.strava.com/activities/" + activityId + "/export_gpx";
     }
 
     @Override
@@ -752,14 +782,14 @@ public class JStravaV3 implements JStrava {
 
 
     private String getResult(String URL) {
-        List<String> result = getResult(URL, true);
+        List<String> result = getResult(URL, true, true);
         if (result == null) {
             return null;
         }
         return result.get(1);
     }
 
-    private List<String> getResult(String URL, boolean withBearer) {
+    private List<String> getResult(String URL, boolean withBearer, boolean jsonFormat) {
         if (!init && !withBearer) {
             throw new RuntimeException("Class not initialized. Missing access_token");
         }
@@ -770,7 +800,9 @@ public class JStravaV3 implements JStrava {
             URL url = new URL(URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
+            if (jsonFormat) {
+                conn.setRequestProperty("Accept", "application/json");
+            }
             if (withBearer) {
                 conn.setRequestProperty("Authorization", "Bearer " + getAccessToken());
             }
