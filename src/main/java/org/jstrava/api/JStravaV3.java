@@ -246,7 +246,7 @@ public class JStravaV3 implements JStrava {
 
     @Override
     public List<Activity> getCurrentAthleteActivitiesAll() {
-        int resultsPerPage = 30;
+        int resultsPerPage = 100;
         int page = 1;
         List<Activity> currentActivities = new ArrayList<>();
         List<Activity> activitiesPerPage;
