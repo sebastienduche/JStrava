@@ -1,5 +1,6 @@
 package org.jstrava.api;
 
+import org.jstrava.StravaException;
 import org.jstrava.entities.*;
 
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testJStravaV3() {
+    public void testJStravaV3() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         Athlete athlete = strava.getCurrentAthlete();
@@ -45,7 +46,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthlete() {
+    public void testFindAthlete() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
 
@@ -70,7 +71,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteKOMs() {
+    public void testFindAthleteKOMs() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<SegmentEffort> efforts = strava.findAthleteKOMs(athleteId);
@@ -82,7 +83,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteKOMsWithPagination() {
+    public void testFindAthleteKOMsWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<SegmentEffort> efforts = strava.findAthleteKOMs(athleteId, 2, 1);
@@ -95,7 +96,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentAthleteFriends() {
+    public void testGetCurrentAthleteFriends() throws StravaException {
 
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
@@ -107,7 +108,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentAthleteFriendsWithPagination() {
+    public void testGetCurrentAthleteFriendsWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.getCurrentAthleteFriends(2, 1);
@@ -119,7 +120,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteFriends() {
+    public void testFindAthleteFriends() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findAthleteFriends(athleteId);
@@ -130,7 +131,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteFriendsWithPagination() {
+    public void testFindAthleteFriendsWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findAthleteFriends(athleteId, 2, 1);
@@ -142,7 +143,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentAthleteFollowers() {
+    public void testGetCurrentAthleteFollowers() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.getCurrentAthleteFollowers();
@@ -153,7 +154,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentAthleteFollowersWithPagination() {
+    public void testGetCurrentAthleteFollowersWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.getCurrentAthleteFollowers(2, 1);
@@ -165,7 +166,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteFollowers() {
+    public void testFindAthleteFollowers() throws StravaException {
 
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
@@ -177,7 +178,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteFollowersWithPagination() {
+    public void testFindAthleteFollowersWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findAthleteFollowers(athleteId, 2, 1);
@@ -189,7 +190,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteBothFollowing() {
+    public void testFindAthleteBothFollowing() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findAthleteBothFollowing(athleteId);
@@ -200,7 +201,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindAthleteBothFollowingWithPagination() {
+    public void testFindAthleteBothFollowingWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findAthleteBothFollowing(athleteId, 2, 1);
@@ -227,13 +228,13 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivity() {
+    public void testFindActivity() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
 
         Activity activity = strava.findActivity(activityId);
         assertNotNull(activity);
-        System.out.println("Activity Name " + activity.toString());
+        System.out.println("Activity Name " + activity);
         assertNotNull(activity.getAthlete());
         System.out.println("Athlete " + activity.getAthlete().getId());
         System.out.println("MAP" + activity.getMap().toString());
@@ -264,7 +265,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentAthleteActivities() {
+    public void testGetCurrentAthleteActivities() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Activity> activities = strava.getCurrentAthleteActivities();
@@ -275,7 +276,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentAthleteActivitiesWithPagination() {
+    public void testGetCurrentAthleteActivitiesWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Activity> activities = strava.getCurrentAthleteActivities(2, 1);
@@ -287,7 +288,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentFriendsActivities() {
+    public void testGetCurrentFriendsActivities() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Activity> activities = strava.getCurrentFriendsActivities();
@@ -298,7 +299,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testGetCurrentFriendsActivitiesWithPagination() {
+    public void testGetCurrentFriendsActivitiesWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Activity> activities = strava.getCurrentFriendsActivities(2, 1);
@@ -310,7 +311,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivityLaps() {
+    public void testFindActivityLaps() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<LapsItem> laps = strava.findActivityLaps(activityId);
@@ -323,7 +324,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivityComments() {
+    public void testFindActivityComments() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Comment> comments = strava.findActivityComments(activityId);
@@ -334,7 +335,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivityCommentsWithPagination() {
+    public void testFindActivityCommentsWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Comment> comments = strava.findActivityComments(activityId, false, 2, 1);
@@ -346,7 +347,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivityKudos() {
+    public void testFindActivityKudos() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findActivityKudos(activityId);
@@ -357,7 +358,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivityKudosWithPagination() {
+    public void testFindActivityKudosWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findActivityKudos(activityId, 2, 1);
@@ -369,7 +370,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindClubMembers() {
+    public void testFindClubMembers() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findClubMembers(clubId);
@@ -380,7 +381,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindClubMembersWithPagination() {
+    public void testFindClubMembersWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Athlete> athletes = strava.findClubMembers(clubId, 2, 1);
@@ -393,7 +394,7 @@ public class JStravaV3Test {
 
     ////////Remove EXPECTED annotation if you point to a club you are member of.
     @Test
-    public void testFindClubActivities() {
+    public void testFindClubActivities() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Activity> activities = strava.findClubActivities(clubId);
@@ -405,7 +406,7 @@ public class JStravaV3Test {
 
     ////////Remove EXPECTED annotation if you point to a club you are member of.
     @Test
-    public void testFindClubActivitiesWithPagination() {
+    public void testFindClubActivitiesWithPagination() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Activity> activities = strava.findClubActivities(clubId, 2, 1);
@@ -417,7 +418,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindClub() {
+    public void testFindClub() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
 
@@ -428,7 +429,7 @@ public class JStravaV3Test {
 
     ////////Change assert if you do have clubs
     @Test
-    public void testGetCurrentAthleteClubs() {
+    public void testGetCurrentAthleteClubs() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Club> clubs = strava.getCurrentAthleteClubs();
@@ -440,7 +441,7 @@ public class JStravaV3Test {
 
 
     @Test
-    public void testFindGear() {
+    public void testFindGear() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
 
@@ -450,7 +451,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindSegment() {
+    public void testFindSegment() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         Segment segment = strava.findSegment(segmentId);
@@ -460,7 +461,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindCurrentStarredSegments() {
+    public void testFindCurrentStarredSegments() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Segment> segments = strava.getCurrentStarredSegment();
@@ -473,7 +474,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindSegmentLeaderBoard() {
+    public void testFindSegmentLeaderBoard() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         SegmentLeaderBoard board = strava.findSegmentLeaderBoard(segmentId);
@@ -498,7 +499,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindSegmentExplorer() {
+    public void testFindSegmentExplorer() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         double[] bounds = new double[]{37.821362, -122.505373, 37.842038, -122.465977};
@@ -512,7 +513,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivityStreams() {
+    public void testFindActivityStreams() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"});
@@ -527,7 +528,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindActivityStreamsWithResolution() {
+    public void testFindActivityStreamsWithResolution() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"}, "low", null);
@@ -543,7 +544,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindEffortStreams() {
+    public void testFindEffortStreams() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Stream> streams = strava.findEffortStreams(activityId, new String[]{"latlng", "time", "distance"});
@@ -558,7 +559,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindEffortStreamsWithResolution() {
+    public void testFindEffortStreamsWithResolution() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Stream> streams = strava.findEffortStreams(activityId, new String[]{"latlng", "time", "distance"}, "low", null);
@@ -574,7 +575,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindSegmentStreams() {
+    public void testFindSegmentStreams() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"});
@@ -589,7 +590,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindSegmentStreamsWithResolution() {
+    public void testFindSegmentStreamsWithResolution() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         List<Stream> streams = strava.findActivityStreams(activityId, new String[]{"latlng", "time", "distance"}, "low", null);

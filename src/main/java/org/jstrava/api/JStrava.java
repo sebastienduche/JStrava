@@ -4,6 +4,8 @@ package org.jstrava.api;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+
+import org.jstrava.StravaException;
 import org.jstrava.entities.*;
 
 /**
@@ -11,51 +13,51 @@ import org.jstrava.entities.*;
  */
 public interface JStrava {
 
-    Athlete getCurrentAthlete();
+    Athlete getCurrentAthlete() throws StravaException;
     Athlete updateAthlete(HashMap optionalParameters);
-    Athlete findAthlete(int id);
-    List<SegmentEffort> findAthleteKOMs(int athleteId);
-    List<SegmentEffort> findAthleteKOMs(int athleteId, int page, int per_page);
-    List<Athlete> getCurrentAthleteFriends();
-    List<Athlete> getCurrentAthleteFriends(int page, int per_page);
-    List<Athlete> findAthleteFriends(int id);
-    List<Athlete> findAthleteFriends(int id, int page, int per_page);
-    List<Athlete> getCurrentAthleteFollowers();
-    List<Athlete> getCurrentAthleteFollowers(int page, int per_page);
-    List<Athlete> findAthleteFollowers(int id);
-    List<Athlete> findAthleteFollowers(int id, int page, int per_page);
-    List<Athlete> findAthleteBothFollowing(int id);
-    List<Athlete> findAthleteBothFollowing(int id, int page, int per_page);
+    Athlete findAthlete(int id) throws StravaException;
+    List<SegmentEffort> findAthleteKOMs(int athleteId) throws StravaException;
+    List<SegmentEffort> findAthleteKOMs(int athleteId, int page, int per_page) throws StravaException;
+    List<Athlete> getCurrentAthleteFriends() throws StravaException;
+    List<Athlete> getCurrentAthleteFriends(int page, int per_page) throws StravaException;
+    List<Athlete> findAthleteFriends(int id) throws StravaException;
+    List<Athlete> findAthleteFriends(int id, int page, int per_page) throws StravaException;
+    List<Athlete> getCurrentAthleteFollowers() throws StravaException;
+    List<Athlete> getCurrentAthleteFollowers(int page, int per_page) throws StravaException;
+    List<Athlete> findAthleteFollowers(int id) throws StravaException;
+    List<Athlete> findAthleteFollowers(int id, int page, int per_page) throws StravaException;
+    List<Athlete> findAthleteBothFollowing(int id) throws StravaException;
+    List<Athlete> findAthleteBothFollowing(int id, int page, int per_page) throws StravaException;
     Activity createActivity(String name, String type, String start_date_local, int elapsed_time);
     Activity createActivity(String name, String type, String start_date_local, int elapsed_time, String description, float distance);
     void deleteActivity(long activityId);
-    Activity findActivity(long id);
-    Activity findActivity(long id, boolean include_all_efforts);
+    Activity findActivity(long id) throws StravaException;
+    Activity findActivity(long id, boolean include_all_efforts) throws StravaException;
     Activity updateActivity(long activityId, HashMap optionalParameters);
-    List<Activity> getCurrentAthleteActivitiesAll();
-    List<Activity> getCurrentAthleteActivities();
-    List<Route> getCurrentAthleteRoutes();
-    List<Activity> getCurrentAthleteActivities(int page, int per_page);
-    List<Activity> getCurrentAthleteActivitiesBeforeDate(long before);
-    List<Activity> getCurrentAthleteActivitiesAfterDate(long after);
-    List<Activity> getCurrentFriendsActivities();
-    List<Activity> getCurrentFriendsActivities(int page, int per_page);
-    List<ActivityZone> getActivityZones(long activityId);
-    List<LapsItem> findActivityLaps(long activityId);
-    List<Comment> findActivityComments(long activityId);
-    List<Comment> findActivityComments(long activityId, boolean markdown, int page, int per_page);
-    List<Athlete> findActivityKudos(long activityId);
-    List<Athlete> findActivityKudos(long activityId, int page, int per_page);
-    List<Athlete> findClubMembers(int clubId);
-    List<Athlete> findClubMembers(int clubId, int page, int per_page);
-    List<Activity> findClubActivities(int clubId);
-    List<Activity> findClubActivities(int clubId, int page, int per_page);
-    Club findClub(int id);
-    List<Club> getCurrentAthleteClubs();
-    Gear findGear(String id);
+    List<Activity> getCurrentAthleteActivitiesAll() throws StravaException;
+    List<Activity> getCurrentAthleteActivities() throws StravaException;
+    List<Route> getCurrentAthleteRoutes() throws StravaException;
+    List<Activity> getCurrentAthleteActivities(int page, int per_page) throws StravaException;
+    List<Activity> getCurrentAthleteActivitiesBeforeDate(long before) throws StravaException;
+    List<Activity> getCurrentAthleteActivitiesAfterDate(long after) throws StravaException;
+    List<Activity> getCurrentFriendsActivities() throws StravaException;
+    List<Activity> getCurrentFriendsActivities(int page, int per_page) throws StravaException;
+    List<ActivityZone> getActivityZones(long activityId) throws StravaException;
+    List<LapsItem> findActivityLaps(long activityId) throws StravaException;
+    List<Comment> findActivityComments(long activityId) throws StravaException;
+    List<Comment> findActivityComments(long activityId, boolean markdown, int page, int per_page) throws StravaException;
+    List<Athlete> findActivityKudos(long activityId) throws StravaException;
+    List<Athlete> findActivityKudos(long activityId, int page, int per_page) throws StravaException;
+    List<Athlete> findClubMembers(int clubId) throws StravaException;
+    List<Athlete> findClubMembers(int clubId, int page, int per_page) throws StravaException;
+    List<Activity> findClubActivities(int clubId) throws StravaException;
+    List<Activity> findClubActivities(int clubId, int page, int per_page) throws StravaException;
+    Club findClub(int id) throws StravaException;
+    List<Club> getCurrentAthleteClubs() throws StravaException;
+    Gear findGear(String id) throws StravaException;
 
-    Route findRoute(long routeId);
-    String getRouteAsGPX(long routeId);
+    Route findRoute(long routeId) throws StravaException;
+    String getRouteAsGPX(long routeId) throws StravaException;
     /*
     Strava API doesn't support the export_gpx path for activities
     You need to open this url in the browser to have the gpx file download.
@@ -63,24 +65,24 @@ public interface JStrava {
      */
     String getActivityAsGPX(long activityId);
 
-    List<Route> findAthleteRoutes(int athleteId);
+    List<Route> findAthleteRoutes(int athleteId) throws StravaException;
 
-    Segment findSegment(long segmentId);
-    List<Segment> getCurrentStarredSegment();
-    SegmentLeaderBoard findSegmentLeaderBoard(long segmentId);
-    SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, int page, int per_page);
+    Segment findSegment(long segmentId) throws StravaException;
+    List<Segment> getCurrentStarredSegment() throws StravaException;
+    SegmentLeaderBoard findSegmentLeaderBoard(long segmentId) throws StravaException;
+    SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, int page, int per_page) throws StravaException;
     SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, HashMap optionalParameters);
-    List<Segment>findSegments(double[] bounds);
+    List<Segment>findSegments(double[] bounds) throws StravaException;
     List<Segment>findSegments(double[] bounds, HashMap optionalParameters);
-    SegmentEffort findSegmentEffort(int id);
-    List<Stream>findActivityStreams(long activityId, String[] types);
-    List<Stream>findActivityStreams(long activityId, String[] types, String resolution, String series_type);
-    List<Stream>findEffortStreams(int id, String[] types);
-    List<Stream>findEffortStreams(long activityId, String[] types, String resolution, String series_type);
-    List<Stream>findSegmentStreams(long activityId, String[] types);
-    List<Stream>findSegmentStreams(long activityId, String[] types, String resolution, String series_type);
+    SegmentEffort findSegmentEffort(int id) throws StravaException;
+    List<Stream>findActivityStreams(long activityId, String[] types) throws StravaException;
+    List<Stream>findActivityStreams(long activityId, String[] types, String resolution, String series_type) throws StravaException;
+    List<Stream>findEffortStreams(int id, String[] types) throws StravaException;
+    List<Stream>findEffortStreams(long activityId, String[] types, String resolution, String series_type) throws StravaException;
+    List<Stream>findSegmentStreams(long activityId, String[] types) throws StravaException;
+    List<Stream>findSegmentStreams(long activityId, String[] types, String resolution, String series_type) throws StravaException;
     UploadStatus uploadActivity(String data_type, File file);
     UploadStatus uploadActivity(String activity_type, String name, String description, int is_private, int trainer, String data_type, String external_id, File file);
-    UploadStatus checkUploadStatus(int uploadId);
+    UploadStatus checkUploadStatus(int uploadId) throws StravaException;
 
 }

@@ -9,11 +9,11 @@ import java.net.URISyntaxException;
 
 public class Examples {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws StravaException {
         exampleThree();
     }
 
-    private static void exampleOne() {
+    private static void exampleOne() throws StravaException {
         // This example is to initialise the Strava tokens when you don't have any tokens yet.
         StravaFirstConfigurationDialog stravaFirstConfigurationDialog = new StravaFirstConfigurationDialog();
 
@@ -34,7 +34,7 @@ public class Examples {
         System.exit(0);
     }
 
-    public static void exampleTwo() {
+    public static void exampleTwo() throws StravaException {
         // This example reads the existing settings in the file to connect to Strava
         File file = new File("test.txt");
         FileIdentificationStorage fileIdentificationStorage = new FileIdentificationStorage(file);
@@ -49,7 +49,7 @@ public class Examples {
         System.exit(0);
     }
 
-    public static void exampleThree() {
+    public static void exampleThree() throws StravaException {
         // This example allows you to set up the Strava connection by filling your existing tokens
         StravaConfigurationDialog stravaConfigurationDialog = new StravaConfigurationDialog();
 
