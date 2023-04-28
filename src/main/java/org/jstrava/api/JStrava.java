@@ -14,7 +14,7 @@ import org.jstrava.entities.*;
 public interface JStrava {
 
     Athlete getCurrentAthlete() throws StravaException;
-    Athlete updateAthlete(HashMap optionalParameters);
+    Athlete updateAthlete(HashMap optionalParameters) throws StravaException;
     Athlete findAthlete(int id) throws StravaException;
     List<SegmentEffort> findAthleteKOMs(int athleteId) throws StravaException;
     List<SegmentEffort> findAthleteKOMs(int athleteId, int page, int per_page) throws StravaException;
@@ -28,12 +28,12 @@ public interface JStrava {
     List<Athlete> findAthleteFollowers(int id, int page, int per_page) throws StravaException;
     List<Athlete> findAthleteBothFollowing(int id) throws StravaException;
     List<Athlete> findAthleteBothFollowing(int id, int page, int per_page) throws StravaException;
-    Activity createActivity(String name, String type, String start_date_local, int elapsed_time);
-    Activity createActivity(String name, String type, String start_date_local, int elapsed_time, String description, float distance);
-    void deleteActivity(long activityId);
+    Activity createActivity(String name, String type, String start_date_local, int elapsed_time) throws StravaException;
+    Activity createActivity(String name, String type, String start_date_local, int elapsed_time, String description, float distance) throws StravaException;
+    void deleteActivity(long activityId) throws StravaException;
     Activity findActivity(long id) throws StravaException;
     Activity findActivity(long id, boolean include_all_efforts) throws StravaException;
-    Activity updateActivity(long activityId, HashMap optionalParameters);
+    Activity updateActivity(long activityId, HashMap optionalParameters) throws StravaException;
     List<Activity> getCurrentAthleteActivitiesAll() throws StravaException;
     List<Activity> getCurrentAthleteActivities() throws StravaException;
     List<Route> getCurrentAthleteRoutes() throws StravaException;
@@ -71,9 +71,9 @@ public interface JStrava {
     List<Segment> getCurrentStarredSegment() throws StravaException;
     SegmentLeaderBoard findSegmentLeaderBoard(long segmentId) throws StravaException;
     SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, int page, int per_page) throws StravaException;
-    SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, HashMap optionalParameters);
+    SegmentLeaderBoard findSegmentLeaderBoard(long segmentId, HashMap optionalParameters) throws StravaException;
     List<Segment>findSegments(double[] bounds) throws StravaException;
-    List<Segment>findSegments(double[] bounds, HashMap optionalParameters);
+    List<Segment>findSegments(double[] bounds, HashMap optionalParameters) throws StravaException;
     SegmentEffort findSegmentEffort(int id) throws StravaException;
     List<Stream>findActivityStreams(long activityId, String[] types) throws StravaException;
     List<Stream>findActivityStreams(long activityId, String[] types, String resolution, String series_type) throws StravaException;
@@ -81,7 +81,7 @@ public interface JStrava {
     List<Stream>findEffortStreams(long activityId, String[] types, String resolution, String series_type) throws StravaException;
     List<Stream>findSegmentStreams(long activityId, String[] types) throws StravaException;
     List<Stream>findSegmentStreams(long activityId, String[] types, String resolution, String series_type) throws StravaException;
-    UploadStatus uploadActivity(String data_type, File file);
+    UploadStatus uploadActivity(String data_type, File file) throws StravaException;
     UploadStatus uploadActivity(String activity_type, String name, String description, int is_private, int trainer, String data_type, String external_id, File file);
     UploadStatus checkUploadStatus(int uploadId) throws StravaException;
 

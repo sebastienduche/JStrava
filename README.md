@@ -1,4 +1,4 @@
-JStrava Extension 1.3
+JStrava Extension 1.4
 =======
 
 Java Library for the Strava API

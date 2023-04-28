@@ -58,7 +58,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testUpdateAthlete() {
+    public void testUpdateAthlete() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
 
@@ -213,16 +213,16 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testCreateAndDeleteActivity() {
+    public void testCreateAndDeleteActivity() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
 
         Activity activity = strava.createActivity("Test Manual Activity", "ride", "2014-03-14T09:00:00Z", 10);
         assertNotNull(activity);
-        System.out.println("Activity Name " + activity.toString());
+        System.out.println("Activity Name " + activity);
         Activity activityExtra = strava.createActivity("Test Manual Activity", "ride", "2014-03-14T09:00:00Z", 10, "Testing manual creation", 100);
         assertNotNull(activityExtra);
-        System.out.println("Activity Name " + activityExtra.toString());
+        System.out.println("Activity Name " + activityExtra);
         strava.deleteActivity(activity.getId());
         strava.deleteActivity(activityExtra.getId());
     }
@@ -249,7 +249,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testUpdateActivity() {
+    public void testUpdateActivity() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
 
@@ -485,7 +485,7 @@ public class JStravaV3Test {
     }
 
     @Test
-    public void testFindSegmentLeaderBoardWithParameters() {
+    public void testFindSegmentLeaderBoardWithParameters() throws StravaException {
         JStravaV3 strava = new JStravaV3();
         strava.init(accessToken);
         HashMap optionalParameters = new HashMap();
