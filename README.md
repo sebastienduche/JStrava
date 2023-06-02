@@ -1,4 +1,4 @@
-JStrava Extension 1.4
+JStrava Extension 1.5
 =======
 
 Java Library for the Strava API
@@ -40,4 +40,4 @@ commons-net-3.0.1.jar
 gson-2.10.1.jar  
 miglayout-4.0-swing.jar  
 
-These libraries can be found in the lib directory.
+These libraries can be found in the lib directory. Jar compiled with Java 11
