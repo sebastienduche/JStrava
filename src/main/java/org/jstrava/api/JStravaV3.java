@@ -812,7 +812,7 @@ public class JStravaV3 implements JStrava {
             }
 
             if (conn.getResponseCode() != 200) {
-                throw new StravaException("Failed : HTTP error code : "
+                throw new StravaException(conn.getResponseCode(), "Failed : HTTP error code : "
                         + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -827,7 +827,7 @@ public class JStravaV3 implements JStrava {
             conn.disconnect();
 
         } catch (IOException e) {
-            throw new StravaException("", e);
+            throw new StravaException("Error in getResult :", e);
         }
 
         return List.of(resultUrl.toString(), sb.toString());
