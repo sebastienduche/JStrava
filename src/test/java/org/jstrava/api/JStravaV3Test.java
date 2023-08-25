@@ -1,8 +1,8 @@
 package org.jstrava.api;
 
-import org.jstrava.StravaException;
 import org.jstrava.entities.*;
 
+import org.jstrava.exception.StravaException;
 import org.junit.Test;
 
 import java.util.HashMap;

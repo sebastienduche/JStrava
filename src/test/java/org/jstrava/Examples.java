@@ -1,5 +1,6 @@
 package org.jstrava;
 
+import org.jstrava.exception.StravaException;
 import org.jstrava.user.FileIdentificationStorage;
 import org.jstrava.user.IdentificationStorage;
 

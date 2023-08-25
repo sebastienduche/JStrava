@@ -5,8 +5,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import org.jstrava.StravaException;
 import org.jstrava.entities.*;
+import org.jstrava.exception.StravaException;
 
 /**
  * Created by roberto on 12/26/13.

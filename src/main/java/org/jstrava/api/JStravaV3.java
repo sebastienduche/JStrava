@@ -2,7 +2,8 @@ package org.jstrava.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import org.jstrava.StravaException;
+import org.jstrava.exception.GenericStravaException;
+import org.jstrava.exception.StravaException;
 import org.jstrava.entities.Activity;
 import org.jstrava.entities.ActivityZone;
 import org.jstrava.entities.Athlete;
@@ -16,6 +17,7 @@ import org.jstrava.entities.SegmentEffort;
 import org.jstrava.entities.SegmentLeaderBoard;
 import org.jstrava.entities.Stream;
 import org.jstrava.entities.UploadStatus;
+import org.jstrava.exception.StravaRequestException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -233,8 +235,8 @@ public class JStravaV3 implements JStrava {
     private <T> T fromJson(String json, Class<T> classOfT) throws StravaException {
         try {
         return gson.fromJson(json, classOfT);
-        }catch (JsonSyntaxException e) {
-            throw new StravaException("Error with json:\n" + json, e);
+        } catch (JsonSyntaxException e) {
+            throw new GenericStravaException("Error with json:\n" + json, e);
         }
     }
 
@@ -812,7 +814,7 @@ public class JStravaV3 implements JStrava {
             }
 
             if (conn.getResponseCode() != 200) {
-                throw new StravaException(conn.getResponseCode(), "Failed : HTTP error code : "
+                throw new StravaRequestException(conn.getResponseCode(), "Failed : HTTP error code : "
                         + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -827,7 +829,7 @@ public class JStravaV3 implements JStrava {
             conn.disconnect();
 
         } catch (IOException e) {
-            throw new StravaException("Error in getResult :", e);
+            throw new GenericStravaException("Error in getResult :", e);
         }
 
         return List.of(resultUrl.toString(), sb.toString());
