@@ -8,7 +8,7 @@
     <target name="create_run_jar">
 
         <mkdir dir="./Build"/>
-        <jar destfile="Build/JStravaExtension-1.7.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="Build/JStravaExtension-1.8.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Class-Path" value="."/>
             </manifest>
