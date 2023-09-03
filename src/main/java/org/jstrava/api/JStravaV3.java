@@ -271,6 +271,9 @@ public class JStravaV3 implements JStrava {
     }
 
     private <T> T fromJson(String json, Class<T> classOfT) throws StravaException {
+        if (json == null || json.isEmpty()) {
+            throw new GenericStravaException("Error: " + (json == null ? "json is null" : "json is empty"), null);
+        }
         try {
         return gson.fromJson(json, classOfT);
         } catch (JsonSyntaxException e) {

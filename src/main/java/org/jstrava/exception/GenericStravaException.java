@@ -16,4 +16,12 @@ public class GenericStravaException extends StravaException {
     public Exception getException() {
         return exception;
     }
+
+    @Override
+    public String toString() {
+        return "GenericStravaException{" +
+                "message='" + message + '\'' +
+                ", exception=" + exception +
+                '}';
+    }
 }
