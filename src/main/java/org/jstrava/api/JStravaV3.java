@@ -879,7 +879,7 @@ public class JStravaV3 implements JStrava {
     }
 
     public <T> T retryGet(Class<T> classOfT) {
-        String s = getResult(latestGetURL, withBearer, jsonFormat).get(0);
+        String s = getResult(latestGetURL, withBearer, jsonFormat).get(1);
         if (jsonFormat) {
             return fromJson(s, classOfT);
         }
